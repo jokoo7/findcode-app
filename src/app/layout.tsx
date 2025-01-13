@@ -1,20 +1,11 @@
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
 
+import Navbar from '@/components/navbar'
 import { ThemeProvider } from '@/components/theme-provider'
+import { geistSans, inter } from '@/lib/fonts'
 import { cn } from '@/lib/utils'
 
 import './globals.css'
-
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin']
-})
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin']
-})
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -28,10 +19,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="h-full" suppressHydrationWarning>
-      <body className={cn('relative h-full antialiased', geistSans.className, geistMono.variable)}>
+      <body className={cn('relative h-full antialiased', geistSans.variable, inter.variable)}>
         <ThemeProvider attribute="class" defaultTheme="system">
           <main className="relative flex min-h-screen flex-col">
-            <div className="flex-1 flex-grow">{children}</div>
+            <Navbar />
+            <div className="mb-96 flex-1 flex-grow">{children}</div>
           </main>
         </ThemeProvider>
       </body>
