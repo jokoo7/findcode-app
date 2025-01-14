@@ -20,14 +20,14 @@ export function NavLinks({ className }: IProps) {
         className={cn(buttonVariants({ variant: 'ghost' }), 'text-neutral-700 dark:text-neutral-300')}
       >
         Starter Kit
-        <ChevronDown className="relative top-[1px] ml-1 h-3 w-3" />
+        <ChevronDown />
       </Link>
       <Link
         href="/"
         className={cn(buttonVariants({ variant: 'ghost' }), 'text-neutral-700 dark:text-neutral-300')}
       >
         UI Template
-        <ChevronDown className="relative top-[1px] ml-1 h-3 w-3" />
+        <ChevronDown />
       </Link>
     </div>
   )

@@ -1,6 +1,7 @@
 import Link from 'next/link'
 
 import MaxWidthWrapper from '@/components/max-width-wrapper'
+import ProductReel from '@/components/product-reel'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { PERKS as perks } from '@/constants/perks'
 import { cn } from '@/lib/utils'
@@ -39,11 +40,11 @@ export default function Home() {
         </div>
       </MaxWidthWrapper>
 
-      <section>
+      <section className="mb-20">
         <MaxWidthWrapper>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
             {perks.map(perk => (
-              <div key={perk.name} className="relative rounded-md border p-4 dark:border-neutral-700">
+              <div key={perk.name} className="relative rounded-md dark:border-neutral-700">
                 <div className="my-2 flex justify-start md:flex-shrink-0">
                   <div className="flex aspect-square h-12 items-center justify-center rounded-xl bg-secondary">
                     {<perk.Icon size={20} className="text-primary" />}
@@ -56,6 +57,93 @@ export default function Home() {
                 <div className="absolute inset-0 -z-10 h-full w-full bg-[linear-gradient(to_right,#80808018_1px,transparent_1px),linear-gradient(to_bottom,#80808018_1px,transparent_1px)] bg-[size:18px_18px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_20%,#000_80%,transparent_100%)]"></div>
               </div>
             ))}
+          </div>
+        </MaxWidthWrapper>
+      </section>
+
+      <section className="pb-16">
+        <MaxWidthWrapper>
+          <div className="mb-4 md:flex md:items-center md:justify-between">
+            <div className="max-w-2xl lg:max-w-4xl">
+              <h1 className="text-2xl font-bold sm:text-3xl">Brand new</h1>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quia, magni.
+              </p>
+            </div>
+
+            <Link href="/" className="hidden text-sm font-medium text-primary md:block">
+              Shop the collection <span aria-hidden="true">&rarr;</span>
+            </Link>
+          </div>
+
+          <div className="relative">
+            <div className="mt-6 flex w-full items-center">
+              <ProductReel />
+            </div>
+          </div>
+
+          <div className="mt-6 w-full md:hidden">
+            <Link href="/" className="text-sm font-medium text-primary">
+              Shop the collection <span aria-hidden="true">&rarr;</span>
+            </Link>
+          </div>
+        </MaxWidthWrapper>
+      </section>
+
+      <section className="pb-16">
+        <MaxWidthWrapper>
+          <div className="mb-4 md:flex md:items-center md:justify-between">
+            <div className="max-w-2xl lg:max-w-4xl">
+              <h1 className="text-2xl font-bold sm:text-3xl">Starter Kit</h1>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quia, magni.
+              </p>
+            </div>
+
+            <Link href="/" className="hidden text-sm font-medium text-primary md:block">
+              Shop the collection <span aria-hidden="true">&rarr;</span>
+            </Link>
+          </div>
+
+          <div className="relative">
+            <div className="mt-6 flex w-full items-center">
+              <ProductReel />
+            </div>
+          </div>
+
+          <div className="mt-6 w-full md:hidden">
+            <Link href="/" className="text-sm font-medium text-primary">
+              Shop the collection <span aria-hidden="true">&rarr;</span>
+            </Link>
+          </div>
+        </MaxWidthWrapper>
+      </section>
+
+      <section className="pb-16">
+        <MaxWidthWrapper>
+          <div className="mb-4 md:flex md:items-center md:justify-between">
+            <div className="max-w-2xl lg:max-w-4xl">
+              <h1 className="text-2xl font-bold sm:text-3xl">UI Template</h1>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quia, magni.
+              </p>
+            </div>
+
+            <Link href="/" className="hidden text-sm font-medium text-primary md:block">
+              Shop the collection <span aria-hidden="true">&rarr;</span>
+            </Link>
+          </div>
+
+          <div className="relative">
+            <div className="mt-6 flex w-full items-center">
+              <ProductReel />
+            </div>
+          </div>
+
+          <div className="mt-6 w-full md:hidden">
+            <Link href="/" className="text-sm font-medium text-primary">
+              Shop the collection <span aria-hidden="true">&rarr;</span>
+            </Link>
           </div>
         </MaxWidthWrapper>
       </section>

@@ -1,10 +1,8 @@
-import Link from 'next/link'
-
+import Logo from '@/components/logo'
 import MaxWidthWrapper from '@/components/max-width-wrapper'
+import MobileNav from '@/components/mobile-nav'
 import { ModeToggle } from '@/components/mode-toggle'
-
-import MobileNav from './mobile-nav'
-import { NavLinks } from './nav-links'
+import { NavLinks } from '@/components/nav-links'
 
 const Navbar = async () => {
   return (
@@ -12,12 +10,7 @@ const Navbar = async () => {
       <header className="relative w-full border-b bg-background">
         <MaxWidthWrapper>
           <div className="flex h-16 items-center">
-            <Link
-              href="/"
-              className="block bg-gradient-to-l from-violet-500 to-primary bg-clip-text text-center font-sans text-2xl font-bold text-transparent dark:from-violet-500 dark:to-primary"
-            >
-              findcode
-            </Link>
+            <Logo />
 
             <NavLinks className="z-50 hidden sm:ml-8 sm:flex sm:items-center sm:self-stretch" />
 

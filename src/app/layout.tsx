@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 
+import Footer from '@/components/footer'
 import Navbar from '@/components/navbar'
 import { ThemeProvider } from '@/components/theme-provider'
 import { geistSans, inter } from '@/lib/fonts'
@@ -23,7 +24,8 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="system">
           <main className="relative flex min-h-screen flex-col">
             <Navbar />
-            <div className="mb-96 flex-1 flex-grow">{children}</div>
+            <div className="flex-1 flex-grow">{children}</div>
+            <Footer />
           </main>
         </ThemeProvider>
       </body>
