@@ -23,6 +23,6 @@ export const PERKS = [
     name: 'Customer Support',
     Icon: Headset,
     description:
-      'Kami menyediakan layanan dukungan pelanggan yang responsif melalui chat atau anda dapat langsung menghubungi kontak yang tersedia.'
+      'Kami menyediakan layanan dukungan pelanggan yang responsif melalui chat. Kami siap membantu menjawab pertanyaan teknis, memberikan panduan, atau menyelesaikan masalah yang terkait dengan source code.'
   }
 ]

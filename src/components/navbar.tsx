@@ -3,6 +3,7 @@ import Link from 'next/link'
 import MaxWidthWrapper from '@/components/max-width-wrapper'
 import { ModeToggle } from '@/components/mode-toggle'
 
+import MobileNav from './mobile-nav'
 import { NavLinks } from './nav-links'
 
 const Navbar = async () => {
@@ -18,17 +19,17 @@ const Navbar = async () => {
               findcode
             </Link>
 
-            <div className="z-50 hidden sm:ml-8 sm:flex sm:items-center sm:self-stretch">
-              <NavLinks />
-            </div>
+            <NavLinks className="z-50 hidden sm:ml-8 sm:flex sm:items-center sm:self-stretch" />
 
             <div className="ml-auto flex items-center">
-              <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-end sm:space-x-6">
+              <div className="mr-4 sm:mr-0 sm:flex sm:flex-1 sm:items-center sm:justify-end sm:space-x-6">
                 <div className="ml-4 flow-root sm:ml-6">
                   <ModeToggle />
                 </div>
               </div>
             </div>
+
+            <MobileNav />
           </div>
         </MaxWidthWrapper>
       </header>
