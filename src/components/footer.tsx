@@ -3,14 +3,12 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
+import MaxWidthWrapper from '@/components/max-width-wrapper'
+import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { FaWhatsapp } from 'react-icons/fa'
 import { MdEmail } from 'react-icons/md'
 import { PiInstagramLogoDuotone, PiTiktokLogoFill } from 'react-icons/pi'
-
-import Logo from './logo'
-import MaxWidthWrapper from './max-width-wrapper'
-import { buttonVariants } from './ui/button'
 
 const Footer = () => {
   const pathname = usePathname()
@@ -19,26 +17,11 @@ const Footer = () => {
   return (
     <footer className="flex-grow-0">
       <MaxWidthWrapper>
-        <div className="border-t">
+        <div className="border-t py-10">
           {pathsToMinimize.includes(pathname) ? null : (
-            <div className="py-8">
-              <div className="flex justify-center">
-                <Logo />
-              </div>
-            </div>
-          )}
-
-          {pathsToMinimize.includes(pathname) ? null : (
-            <div className="relative flex flex-col justify-between gap-6 px-6 py-6 sm:py-8 md:flex-row lg:mt-0">
-              <div className="absolute inset-0 overflow-hidden rounded-lg">
-                <div
-                  aria-hidden="true"
-                  className="absolute inset-0 bg-secondary bg-opacity-90 bg-gradient-to-br"
-                />
-              </div>
-
+            <div className="relative flex flex-col justify-between gap-6 md:flex-row">
               <div className="relative max-w-lg">
-                <h3 className="text-lg font-semibold">Layanan Kami</h3>
+                <h3 className="text-xl font-semibold">Layanan Kami</h3>
                 <p className="mt-1 font-sans text-sm text-accent-foreground">
                   Jika Anda ingin membuat produk digital yang disesuaikan dengan kebutuhan spesifik Anda,
                   jangan ragu untuk menghubungi kami.
@@ -46,12 +29,12 @@ const Footer = () => {
               </div>
 
               <div className="relative flex flex-col font-sans">
-                <h3 className="mb-1 font-inter text-lg font-semibold">Hubungi kami</h3>
+                <h3 className="mb-1 font-inter text-xl font-semibold">Hubungi kami</h3>
                 <Link
                   href="/"
                   className={cn(
-                    buttonVariants({ variant: 'ghost' }),
-                    'h-7 justify-start px-0 font-normal text-accent-foreground'
+                    buttonVariants({ variant: 'link' }),
+                    'h-7 w-fit justify-start px-0 font-normal text-accent-foreground'
                   )}
                 >
                   <MdEmail size={18} />
@@ -60,8 +43,8 @@ const Footer = () => {
                 <Link
                   href="/"
                   className={cn(
-                    buttonVariants({ variant: 'ghost' }),
-                    'h-7 justify-start px-0 font-normal text-accent-foreground'
+                    buttonVariants({ variant: 'link' }),
+                    'h-7 w-fit justify-start px-0 font-normal text-accent-foreground'
                   )}
                 >
                   <PiTiktokLogoFill size={18} />
@@ -70,8 +53,8 @@ const Footer = () => {
                 <Link
                   href="/"
                   className={cn(
-                    buttonVariants({ variant: 'ghost' }),
-                    'h-7 justify-start px-0 font-normal text-accent-foreground'
+                    buttonVariants({ variant: 'link' }),
+                    'h-7 w-fit justify-start px-0 font-normal text-accent-foreground'
                   )}
                 >
                   <PiInstagramLogoDuotone size={18} />
@@ -80,8 +63,8 @@ const Footer = () => {
                 <Link
                   href="/"
                   className={cn(
-                    buttonVariants({ variant: 'ghost' }),
-                    'h-7 justify-start px-0 font-normal text-accent-foreground'
+                    buttonVariants({ variant: 'link' }),
+                    'h-7 w-fit justify-start px-0 font-normal text-accent-foreground'
                   )}
                 >
                   <FaWhatsapp size={18} />
@@ -91,30 +74,17 @@ const Footer = () => {
             </div>
           )}
         </div>
-
-        <div className="py-10 md:flex md:items-center md:justify-between">
+      </MaxWidthWrapper>
+      <div className="bg-secondary">
+        <div className="mx-auto max-w-screen-xl px-6 py-4 md:flex md:items-center md:justify-between md:px-8">
           <div className="text-center md:text-left">
             <p className="text-sm text-muted-foreground">
-              {/* &copy; {new Date().getFullYear()} - Joko Santoso All Rights Reserved */}
-              &copy; {new Date().getFullYear()} findcode - Built with ❤️ by Joko Santoso
+              Build with love by{' '}
+              <span className="inline-block underline underline-offset-2">findcode.</span>
             </p>
           </div>
-
-          <div className="mt-4 flex items-center justify-center md:mt-0">
-            <div className="flex items-center justify-center gap-4">
-              <Link href="#" className="text-sm text-muted-foreground hover:text-gray-600">
-                Terms
-              </Link>
-              <Link href="#" className="text-sm text-muted-foreground hover:text-gray-600">
-                Privacy Policy
-              </Link>
-              <Link href="#" className="text-sm text-muted-foreground hover:text-gray-600">
-                Cookie Policy
-              </Link>
-            </div>
-          </div>
         </div>
-      </MaxWidthWrapper>
+      </div>
     </footer>
   )
 }

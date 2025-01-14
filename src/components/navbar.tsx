@@ -12,11 +12,11 @@ const Navbar = async () => {
           <div className="flex h-16 items-center">
             <Logo />
 
-            <NavLinks className="z-50 hidden sm:ml-8 sm:flex sm:items-center sm:self-stretch" />
+            <NavLinks className="z-50 mt-1 hidden md:ml-8 md:flex md:items-center md:self-stretch" />
 
             <div className="ml-auto flex items-center">
-              <div className="mr-4 sm:mr-0 sm:flex sm:flex-1 sm:items-center sm:justify-end sm:space-x-6">
-                <div className="ml-4 flow-root sm:ml-6">
+              <div className="mr-4 md:mr-0 md:flex md:flex-1 md:items-center md:justify-end md:space-x-6">
+                <div className="ml-4 flow-root md:ml-6">
                   <ModeToggle />
                 </div>
               </div>

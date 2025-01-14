@@ -63,24 +63,10 @@ export default function Home() {
 
       <section className="pb-16">
         <MaxWidthWrapper>
-          <div className="mb-4 md:flex md:items-center md:justify-between">
-            <div className="max-w-2xl lg:max-w-4xl">
-              <h1 className="text-2xl font-bold sm:text-3xl">Brand new</h1>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quia, magni.
-              </p>
-            </div>
-
-            <Link href="/" className="hidden text-sm font-medium text-primary md:block">
-              Shop the collection <span aria-hidden="true">&rarr;</span>
-            </Link>
-          </div>
-
-          <div className="relative">
-            <div className="mt-6 flex w-full items-center">
-              <ProductReel />
-            </div>
-          </div>
+          <ProductReel
+            title="Brand New"
+            subTitle="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odit eos corporis reiciendis ducimus vitae architecto voluptates autem."
+          />
 
           <div className="mt-6 w-full md:hidden">
             <Link href="/" className="text-sm font-medium text-primary">
@@ -92,24 +78,10 @@ export default function Home() {
 
       <section className="pb-16">
         <MaxWidthWrapper>
-          <div className="mb-4 md:flex md:items-center md:justify-between">
-            <div className="max-w-2xl lg:max-w-4xl">
-              <h1 className="text-2xl font-bold sm:text-3xl">Starter Kit</h1>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quia, magni.
-              </p>
-            </div>
-
-            <Link href="/" className="hidden text-sm font-medium text-primary md:block">
-              Shop the collection <span aria-hidden="true">&rarr;</span>
-            </Link>
-          </div>
-
-          <div className="relative">
-            <div className="mt-6 flex w-full items-center">
-              <ProductReel />
-            </div>
-          </div>
+          <ProductReel
+            title="Starter Kit"
+            subTitle="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odit eos corporis reiciendis ducimus vitae architecto."
+          />
 
           <div className="mt-6 w-full md:hidden">
             <Link href="/" className="text-sm font-medium text-primary">
@@ -121,24 +93,10 @@ export default function Home() {
 
       <section className="pb-16">
         <MaxWidthWrapper>
-          <div className="mb-4 md:flex md:items-center md:justify-between">
-            <div className="max-w-2xl lg:max-w-4xl">
-              <h1 className="text-2xl font-bold sm:text-3xl">UI Template</h1>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quia, magni.
-              </p>
-            </div>
-
-            <Link href="/" className="hidden text-sm font-medium text-primary md:block">
-              Shop the collection <span aria-hidden="true">&rarr;</span>
-            </Link>
-          </div>
-
-          <div className="relative">
-            <div className="mt-6 flex w-full items-center">
-              <ProductReel />
-            </div>
-          </div>
+          <ProductReel
+            title="UI Template"
+            subTitle="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
+          />
 
           <div className="mt-6 w-full md:hidden">
             <Link href="/" className="text-sm font-medium text-primary">
