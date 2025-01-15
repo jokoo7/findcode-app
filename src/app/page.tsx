@@ -30,12 +30,12 @@ export default function Home() {
 
           <div className="mt-6 flex flex-col gap-4 sm:flex-row">
             <Link
-              href="/"
+              href="/products"
               className={cn('dark:text-foreground', buttonVariants({ variant: 'default' }))}
             >
-              Browse Trending
+              Temukan Produk
             </Link>
-            <Button variant="ghost">Our quality promise &rarr;</Button>
+            <Button variant="ghost">Atau hubungi kami &rarr;</Button>
           </div>
         </div>
       </MaxWidthWrapper>
@@ -64,8 +64,11 @@ export default function Home() {
       <section className="pb-16">
         <MaxWidthWrapper>
           <ProductReel
-            title="Brand New"
-            subTitle="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odit eos corporis reiciendis ducimus vitae architecto voluptates autem."
+            custom={{
+              label: 'Brand New',
+              subLabel:
+                'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odit eos corporis reiciendis ducimus vitae architecto voluptates autem.'
+            }}
           />
 
           <div className="mt-6 w-full md:hidden">
@@ -78,10 +81,7 @@ export default function Home() {
 
       <section className="pb-16">
         <MaxWidthWrapper>
-          <ProductReel
-            title="Starter Kit"
-            subTitle="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odit eos corporis reiciendis ducimus vitae architecto."
-          />
+          <ProductReel id="starter_kit" />
 
           <div className="mt-6 w-full md:hidden">
             <Link href="/" className="text-sm font-medium text-primary">
@@ -93,10 +93,7 @@ export default function Home() {
 
       <section className="pb-16">
         <MaxWidthWrapper>
-          <ProductReel
-            title="UI Template"
-            subTitle="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
-          />
+          <ProductReel id="ui_template" />
 
           <div className="mt-6 w-full md:hidden">
             <Link href="/" className="text-sm font-medium text-primary">
