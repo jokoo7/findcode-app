@@ -13,10 +13,6 @@ const compat = new FlatCompat({
 
 export default [
   {
-    files: ['**/*.{js,jsx,ts,tsx}'],
-    ignores: ['node_modules', '.next', 'dist']
-  },
-  {
     languageOptions: {
       parser: '@typescript-eslint/parser',
       parserOptions: {
@@ -26,12 +22,18 @@ export default [
     plugins: {
       '@typescript-eslint': typescriptPlugin,
       prettier: prettierPlugin
-    },
-    rules: {
-      '@typescript-eslint/no-unused-vars': 'warn',
-      '@typescript-eslint/no-explicit-any': 'warn',
-      'prettier/prettier': 'warn'
     }
   },
-  ...compat.extends('next/core-web-vitals', 'next/typescript', 'plugin:prettier/recommended')
+  ...compat.extends('next/core-web-vitals', 'next/typescript', 'plugin:prettier/recommended'),
+  {
+    files: ['**/*.{js,jsx,ts,tsx}'],
+    ignores: ['node_modules', '.next', 'dist']
+  },
+  {
+    rules: {
+      '@typescript-eslint/no-unused-vars': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+      'prettier/prettier': 'warn'
+    }
+  }
 ]

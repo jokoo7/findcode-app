@@ -3,7 +3,7 @@ import Link from 'next/link'
 import MaxWidthWrapper from '@/components/max-width-wrapper'
 import ProductReel from '@/components/product-reel'
 import { Button, buttonVariants } from '@/components/ui/button'
-import { PERKS as perks } from '@/constants/perks'
+// import { PERKS as perks } from '@/constants/perks'
 import { cn } from '@/lib/utils'
 
 export default function Home() {
@@ -40,7 +40,7 @@ export default function Home() {
         </div>
       </MaxWidthWrapper>
 
-      <section className="mb-20">
+      {/* <section className="mb-20">
         <MaxWidthWrapper>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
             {perks.map(perk => (
@@ -59,7 +59,7 @@ export default function Home() {
             ))}
           </div>
         </MaxWidthWrapper>
-      </section>
+      </section> */}
 
       <section className="pb-16">
         <MaxWidthWrapper>
