@@ -15,3 +15,19 @@ export const PRODUCT_CATEGORIES = [
     href: '/products?category=ui_template'
   }
 ]
+
+export const TECH_STACKS = [
+  { label: 'HTML', value: 'html' },
+  { label: 'CSS', value: 'css' },
+  { label: 'Javascript', value: 'js' },
+  { label: 'Typescript', value: 'ts' },
+  { label: 'Tailwind CSS', value: 'tailwind_css' },
+  { label: 'shadcn/ui', value: 'shadcn_ui' },
+  { label: 'PHP', value: 'php' },
+  { label: 'Laravel', value: 'laravel' },
+  { label: 'Filament', value: 'filament' },
+  { label: 'Inertia.js', value: 'inertiajs' },
+  { label: 'Next.js', value: 'nextjs' },
+  { label: 'React', value: 'react' },
+  { label: 'Node.js', value: 'nodejs' }
+]

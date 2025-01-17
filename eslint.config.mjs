@@ -11,7 +11,8 @@ const compat = new FlatCompat({
   baseDirectory: __dirname
 })
 
-export default [
+// Deklarasikan array konfigurasi ESLint dalam sebuah variabel
+const eslintConfig = [
   {
     languageOptions: {
       parser: '@typescript-eslint/parser',
@@ -37,3 +38,6 @@ export default [
     }
   }
 ]
+
+// Ekspor konfigurasi sebagai default
+export default eslintConfig

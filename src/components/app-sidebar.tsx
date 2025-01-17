@@ -11,7 +11,7 @@ import {
   SidebarRail
 } from '@/components/ui/sidebar'
 import { logout } from '@/services/user.service'
-import { Hammer, Home, LogOut, User } from 'lucide-react'
+import { Home, LogOut, ShoppingCart, User } from 'lucide-react'
 import * as React from 'react'
 
 import { ModeToggle } from './mode-toggle'
@@ -24,9 +24,9 @@ const items = [
     icon: User
   },
   {
-    title: 'Projects',
-    url: '/admin/dashboard/projects',
-    icon: Hammer
+    title: 'Products',
+    url: '/admin/dashboard/products',
+    icon: ShoppingCart
   }
 ]
 

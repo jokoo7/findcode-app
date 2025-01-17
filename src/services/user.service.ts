@@ -2,10 +2,9 @@ import { redirect } from 'next/navigation'
 
 import { checkIfDataExixts } from '@/services/firebase.service'
 import { createSession, deleteSession } from '@/services/session.service'
+import { FormState } from '@/types/user'
 
-type FormSate = { message?: string } | undefined
-
-export const login = async (state: FormSate, payload: FormData) => {
+export const login = async (state: FormState, payload: FormData) => {
   const username = payload.get('username')
   const password = payload.get('password')
 
