@@ -5,6 +5,7 @@ import Navbar from '@/components/navbar'
 import { ThemeProvider } from '@/components/theme-provider'
 import { geistSans, inter } from '@/lib/fonts'
 import { cn } from '@/lib/utils'
+import { Toaster } from 'sonner'
 
 import './globals.css'
 
@@ -23,6 +24,7 @@ export default function RootLayout({
       <body className={cn('relative h-full antialiased', geistSans.variable, inter.variable)}>
         <ThemeProvider attribute="class" defaultTheme="system">
           <main className="relative flex min-h-screen flex-col">
+            <Toaster expand={true} richColors position="top-right" />
             <Navbar />
             <div className="flex-1 flex-grow">{children}</div>
             <Footer />

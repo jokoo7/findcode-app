@@ -33,7 +33,6 @@
     "command": "^0.0.5",
     "embla-carousel-react": "^8.5.2",
     "firebase": "^11.1.0",
-    "formidable": "^3.5.2",
     "jose": "^5.9.6",
     "lucide-react": "^0.471.1",
     "next": "15.1.4",
@@ -52,7 +51,6 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@trivago/prettier-plugin-sort-imports": "^5.2.1",
-    "@types/formidable": "^3.4.5",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

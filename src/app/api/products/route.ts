@@ -3,6 +3,14 @@ import { NextResponse } from 'next/server'
 import cloudinary from '@/lib/cloudinary'
 import { createData } from '@/services/firebase.service'
 
+// Fungsi untuk menghapus file dari Cloudinary jika dibutuhkan
+const deleteFilesFromCloudinary = async (publicIds: string[]) => {
+  const deletePromises = publicIds.map(publicId => {
+    return cloudinary.uploader.destroy(publicId)
+  })
+  await Promise.all(deletePromises)
+}
+
 export async function POST(req: Request) {
   try {
     const data = await req.formData()
@@ -49,6 +57,7 @@ export async function POST(req: Request) {
 
     // Mengambil URL dari hasil upload
     const fileUrls = results.map((result: any) => result.secure_url)
+    const publicIds = results.map((result: any) => result.public_id)
 
     // Simpan data ke database
     const newData = {
@@ -63,13 +72,24 @@ export async function POST(req: Request) {
     }
 
     const isSaved = await createData('products', newData)
+
     if (!isSaved) {
-      throw new Error('Failed to save product data to database')
+      await deleteFilesFromCloudinary(publicIds)
+      return NextResponse.json(
+        { success: false, message: 'Failed to save product data to database' },
+        { status: 500 }
+      )
     }
 
-    return NextResponse.json({ success: true, message: 'Yess!! Success create project' })
+    return NextResponse.json(
+      { success: true, message: 'Yess!! Success create product' },
+      { status: 200 }
+    )
   } catch (error: any) {
     console.error('Error processing request:', error)
-    return NextResponse.json({ success: false, message: `Error: ${error.message}` }, { status: 500 })
+    return NextResponse.json(
+      { success: false, message: `Error processing request api` },
+      { status: 500 }
+    )
   }
 }
