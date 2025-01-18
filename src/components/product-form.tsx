@@ -47,9 +47,9 @@ interface IProps {
       title: string
       slug: string
       tech_stacks: string[]
-      price: number
-      diskon: number
-      sold: number
+      price: string
+      diskon: string
+      sold: string
       description?: string | undefined
       images?: any
     },
@@ -60,9 +60,9 @@ interface IProps {
     title: string
     slug: string
     tech_stacks: string[]
-    price: number
-    diskon: number
-    sold: number
+    price: string
+    diskon: string
+    sold: string
     description?: string | undefined
     images?: any
   }) => Promise<string | number | undefined>

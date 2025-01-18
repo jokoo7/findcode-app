@@ -1,7 +1,9 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
+
 import ProductForm from '@/components/product-form'
-import { Product } from '@/types/product'
+import { Product, ProductImages } from '@/types/product'
 import { formSchema } from '@/validations/product-validation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as React from 'react'
@@ -16,7 +18,10 @@ interface IProps {
 }
 
 export default function ProductFormLayout({ children, id, product }: IProps) {
+  const router = useRouter()
+
   const [files, setFiles] = React.useState<File[] | null>(null)
+  const [prevImages, setPrevImages] = React.useState<ProductImages[] | undefined>(undefined)
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -25,9 +30,9 @@ export default function ProductFormLayout({ children, id, product }: IProps) {
       slug: '',
       description: '',
       tech_stacks: [],
-      price: 0,
-      diskon: 0,
-      sold: 0
+      price: '0',
+      diskon: '0',
+      sold: '0'
     }
   })
 
@@ -36,14 +41,15 @@ export default function ProductFormLayout({ children, id, product }: IProps) {
 
   React.useEffect(() => {
     if (product || id) {
+      setPrevImages(product?.images)
       reset({
         title: product?.title ?? '',
         slug: product?.slug ?? '',
         description: product?.description ?? '',
         tech_stacks: product?.tech_stacks ?? [],
-        price: product?.price,
-        diskon: product?.diskon,
-        sold: product?.sold
+        price: product?.price.toString(),
+        diskon: product?.diskon.toString(),
+        sold: product?.sold.toString()
       })
     }
   }, [product, reset, id])
@@ -62,8 +68,18 @@ export default function ProductFormLayout({ children, id, product }: IProps) {
   }, [setValue, titleToSlug])
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    if (!files || files.length === 0) return toast.error('Wajib masukkan images.')
     const formData = new FormData()
+
+    if (!files || files.length === 0) {
+      if (!id) return toast.error('Wajib masukkan images.')
+    } else {
+      // Tambahkan file satu per satu ke FormData
+      Array.from(files).forEach(file => {
+        formData.append('images', file)
+      })
+    }
+
+    if (id) formData.append('product_id', id)
 
     formData.append('title', values.title)
     formData.append('description', values.description ?? '')
@@ -73,14 +89,13 @@ export default function ProductFormLayout({ children, id, product }: IProps) {
     formData.append('sold', values.sold.toString())
     formData.append('tech_stacks', JSON.stringify(values.tech_stacks))
 
-    // Tambahkan file satu per satu ke FormData
-    Array.from(files).forEach(file => {
-      formData.append('images', file)
-    })
+    if (prevImages) {
+      formData.append('prev_images', JSON.stringify(prevImages))
+    }
 
     try {
       const response = await fetch('/api/products', {
-        method: 'POST',
+        method: id ? 'PATCH' : 'POST',
         body: formData
       })
       const data = await response.json()
@@ -92,6 +107,7 @@ export default function ProductFormLayout({ children, id, product }: IProps) {
         setFiles(null)
 
         toast.success(data.message)
+        router.refresh()
       }
     } catch (error: any) {
       toast.error(error)
@@ -107,7 +123,7 @@ export default function ProductFormLayout({ children, id, product }: IProps) {
           filesState={{ files, setFiles }}
           isLoading={formState.isSubmitting}
           onSubmit={onSubmit}
-          labelButton="Create"
+          labelButton={id ? 'Update' : 'Create'}
         />
       </div>
     </>

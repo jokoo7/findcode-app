@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server'
 
 import cloudinary from '@/lib/cloudinary'
-import { createData } from '@/services/firebase.service'
+import { createData, updateData } from '@/services/firebase.service'
+import { ProductImages } from '@/types/product'
 
 // Fungsi untuk menghapus file dari Cloudinary jika dibutuhkan
 const deleteFilesFromCloudinary = async (publicIds: string[]) => {
@@ -55,8 +56,10 @@ export async function POST(req: Request) {
     // Tunggu semua file selesai di-upload
     const results = await Promise.all(uploadPromises)
 
-    // Mengambil URL dari hasil upload
-    const fileUrls = results.map((result: any) => result.secure_url)
+    const fileUrls = results.map((result: any) => ({
+      url: result.secure_url,
+      public_id: result.public_id
+    }))
     const publicIds = results.map((result: any) => result.public_id)
 
     // Simpan data ke database
@@ -86,6 +89,94 @@ export async function POST(req: Request) {
       { status: 200 }
     )
   } catch (error: any) {
+    console.error('Error processing request:', error)
+    return NextResponse.json(
+      { success: false, message: `Error processing request api` },
+      { status: 500 }
+    )
+  }
+}
+
+export async function PATCH(req: Request) {
+  try {
+    const data = await req.formData()
+    const id = data.get('product_id') as string
+    if (!id) {
+      return NextResponse.json({ success: false, message: 'Product ID tidak ada' })
+    }
+
+    const images = data.getAll('images') as File[]
+    const title = data.get('title') as string
+    const slug = data.get('slug') as string
+    const description = data.get('description') as string
+    const price = Number(data.get('price'))
+    const diskon = Number(data.get('diskon'))
+    const sold = Number(data.get('sold'))
+    const tech_stacks = JSON.parse(data.get('tech_stacks') as string) as string[]
+    const prev_images = JSON.parse(data.get('prev_images') as string) as ProductImages[]
+
+    let resultImages = prev_images
+
+    if (images.length > 0) {
+      // Hapus gambar lama dari Cloudinary
+      const oldImagePublicIds = prev_images.map(image => image.public_id)
+      await deleteFilesFromCloudinary(oldImagePublicIds)
+
+      // Upload gambar baru ke Cloudinary
+      const uploadPromises = images.map(file => {
+        return new Promise((resolve, reject) => {
+          const reader = file.stream().getReader()
+          const chunks: Uint8Array[] = []
+
+          reader.read().then(function process({ done, value }): any {
+            if (done) {
+              const buffer = Buffer.concat(chunks)
+              cloudinary.uploader
+                .upload_stream({ folder: 'findcode/projects/images' }, (error, result) => {
+                  if (error) reject(error)
+                  resolve(result)
+                })
+                .end(buffer)
+            } else {
+              chunks.push(value)
+              return reader.read().then(process)
+            }
+          })
+        })
+      })
+
+      const resultPromise = await Promise.all(uploadPromises)
+      resultImages = resultPromise.map((result: any) => ({
+        url: result.secure_url,
+        public_id: result.public_id
+      }))
+    }
+
+    // Simpan data ke database
+    const newUpdateData = {
+      title,
+      slug,
+      price,
+      diskon,
+      sold,
+      description,
+      tech_stacks,
+      images: resultImages
+    }
+
+    const isSaved = await updateData('products', id, newUpdateData)
+    if (!isSaved) {
+      return NextResponse.json(
+        { success: false, message: 'Failed to save product data to database' },
+        { status: 500 }
+      )
+    }
+
+    return NextResponse.json(
+      { success: true, message: 'Yess!! Success create product' },
+      { status: 200 }
+    )
+  } catch (error) {
     console.error('Error processing request:', error)
     return NextResponse.json(
       { success: false, message: `Error processing request api` },
