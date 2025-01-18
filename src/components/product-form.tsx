@@ -240,7 +240,7 @@ const ProductForm = ({ form, filesState, onSubmit, isLoading, labelButton }: IPr
             <FormItem>
               <FormLabel>Description</FormLabel>
               <FormControl>
-                <Textarea placeholder="Placeholder" className="resize-none" {...field} />
+                <Textarea placeholder="Placeholder" {...field} />
               </FormControl>
               <FormDescription>masukkan description product.</FormDescription>
               <FormMessage />

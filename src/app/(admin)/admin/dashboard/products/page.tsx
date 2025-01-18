@@ -1,20 +1,23 @@
 import Link from 'next/link'
 
+import { buttonVariants } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 import { retriveData } from '@/services/firebase.service'
-import { Product } from '@/types/product'
+
+import { columns } from './colums'
+import { DataTable } from './data-table'
 
 export default async function Page() {
   const products: any = await retriveData('products')
   return (
     <>
-      <Link href="/admin/dashboard/products/new">create product</Link>
-      <div className="mt-4 flex flex-col gap-2">
-        {products.map((product: Product) => (
-          <Link key={product.id} href={`/admin/dashboard/products/edit/${product.id}`}>
-            {product.title}
-          </Link>
-        ))}
-      </div>
+      <Link
+        href="/admin/dashboard/products/new"
+        className={cn(buttonVariants({ variant: 'outline' }), 'mb-4')}
+      >
+        Create New Product
+      </Link>
+      <DataTable columns={columns} data={products} />
     </>
   )
 }

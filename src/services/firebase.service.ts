@@ -1,5 +1,15 @@
 import { firestore } from '@/lib/firebase'
-import { addDoc, collection, doc, getDoc, getDocs, query, updateDoc, where } from 'firebase/firestore'
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  updateDoc,
+  where
+} from 'firebase/firestore'
 
 export const doesCollectionExist = async (collectionName: string): Promise<boolean> => {
   try {
@@ -47,6 +57,19 @@ export const updateData = async (collectionName: string, id: string, data: any) 
     const collectionExists = await doesCollectionExist(collectionName)
     if (!collectionExists) return false
     await updateDoc(doc(firestore, collectionName, id), data)
+    return true
+  } catch (error) {
+    console.error('Failed to add project to database:', error)
+    return false
+  }
+}
+
+export const deleteData = async (collectionName: string, id: string) => {
+  try {
+    const collectionExists = await doesCollectionExist(collectionName)
+    if (!collectionExists) return false
+    const docRef = doc(firestore, collectionName, id)
+    await deleteDoc(docRef)
     return true
   } catch (error) {
     console.error('Failed to add project to database:', error)

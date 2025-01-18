@@ -1,6 +1,5 @@
 import ProductFormLayout from '@/components/layouts/product-form-layout'
 import { retriveDataById } from '@/services/firebase.service'
-import { Product } from '@/types/product'
 
 interface IProps {
   params: Promise<{ id: string }>
@@ -9,6 +8,10 @@ interface IProps {
 export default async function Page({ params }: IProps) {
   const id = (await params)?.id
   const product: any = await retriveDataById('products', id)
+
+  if (!id) {
+    return <p>ID Tidak ada.</p>
+  }
 
   return (
     <ProductFormLayout id={id} product={product}>

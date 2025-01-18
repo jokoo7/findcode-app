@@ -9,6 +9,12 @@ const nextConfig: NextConfig = {
         hostname: 'cdn.dribbble.com',
         port: '',
         pathname: '/**'
+      },
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+        port: '',
+        pathname: '/**'
       }
     ]
   }

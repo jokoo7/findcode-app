@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 
 import cloudinary from '@/lib/cloudinary'
-import { createData, updateData } from '@/services/firebase.service'
+import { createData, deleteData, updateData } from '@/services/firebase.service'
 import { ProductImages } from '@/types/product'
 
 // Fungsi untuk menghapus file dari Cloudinary jika dibutuhkan
@@ -171,6 +171,42 @@ export async function PATCH(req: Request) {
         { status: 500 }
       )
     }
+
+    return NextResponse.json(
+      { success: true, message: 'Yess!! Success create product' },
+      { status: 200 }
+    )
+  } catch (error) {
+    console.error('Error processing request:', error)
+    return NextResponse.json(
+      { success: false, message: `Error processing request api` },
+      { status: 500 }
+    )
+  }
+}
+
+export async function DELETE(req: Request) {
+  try {
+    const data = await req.json()
+    const { images, id } = data
+
+    // Validasi input
+    if (!images || !id) {
+      return NextResponse.json({ error: 'Images and document ID are required' }, { status: 400 })
+    }
+
+    const publicIds = images.map((image: any) => image.public_id)
+
+    const isDeleted = await deleteData('products', id)
+    if (!isDeleted) {
+      return NextResponse.json(
+        { success: false, message: 'Failed to save product data to database' },
+        { status: 500 }
+      )
+    }
+
+    // delete images in claudinary
+    await deleteFilesFromCloudinary(publicIds)
 
     return NextResponse.json(
       { success: true, message: 'Yess!! Success create product' },
