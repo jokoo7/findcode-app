@@ -3,12 +3,23 @@ import Link from 'next/link'
 import MaxWidthWrapper from '@/components/max-width-wrapper'
 import ProductReel from '@/components/product-reel'
 import { Button, buttonVariants } from '@/components/ui/button'
-// import { PERKS as perks } from '@/constants/perks'
+import { getQueryClient } from '@/lib/get-query-client'
 import { cn } from '@/lib/utils'
+import { retriveData } from '@/services/firebase.service'
+import { HydrationBoundary, dehydrate } from '@tanstack/react-query'
 
-export default function Home() {
+export default async function Home() {
+  const queryClient = getQueryClient()
+
+  const products = await queryClient.fetchQuery({
+    queryKey: ['products'],
+    queryFn: () => retriveData('products')
+  })
+
+  console.log(products)
+
   return (
-    <>
+    <HydrationBoundary state={dehydrate(queryClient)}>
       <MaxWidthWrapper>
         <div className="flex flex-col items-center justify-center py-20 text-center">
           <h1 className="max-w-screen-md scroll-m-20 text-4xl font-extrabold capitalize tracking-tight sm:text-5xl lg:text-6xl">
@@ -102,6 +113,6 @@ export default function Home() {
           </div>
         </MaxWidthWrapper>
       </section>
-    </>
+    </HydrationBoundary>
   )
 }

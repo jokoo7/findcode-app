@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 
 import Footer from '@/components/footer'
 import Navbar from '@/components/navbar'
+import TanstackQueryProvider from '@/components/tanstack-query-provider'
 import { ThemeProvider } from '@/components/theme-provider'
 import { geistSans, inter } from '@/lib/fonts'
 import { cn } from '@/lib/utils'
@@ -22,14 +23,16 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full" suppressHydrationWarning>
       <body className={cn('relative h-full antialiased', geistSans.variable, inter.variable)}>
-        <ThemeProvider attribute="class" defaultTheme="system">
-          <main className="relative flex min-h-screen flex-col">
-            <Toaster expand={true} richColors position="top-right" />
-            <Navbar />
-            <div className="flex-1 flex-grow">{children}</div>
-            <Footer />
-          </main>
-        </ThemeProvider>
+        <TanstackQueryProvider>
+          <ThemeProvider attribute="class" defaultTheme="system">
+            <main className="relative flex min-h-screen flex-col">
+              <Toaster expand={true} richColors position="top-right" />
+              <Navbar />
+              <div className="flex-1 flex-grow">{children}</div>
+              <Footer />
+            </main>
+          </ThemeProvider>
+        </TanstackQueryProvider>
       </body>
     </html>
   )
