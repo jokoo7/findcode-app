@@ -29,10 +29,16 @@ export default function ProductFormLayout({ children, id, product }: IProps) {
       title: '',
       slug: '',
       description: '',
-      tech_stacks: [],
-      price: '0',
-      diskon: '0',
-      sold: '0'
+      category: '',
+      price: 0,
+      discountPrice: 0,
+      demoUrl: '',
+      documentationUrl: '',
+      sold: 0,
+      tags: [],
+      techStacks: [],
+      isPublished: false,
+      fileUrl: ''
     }
   })
 
@@ -41,27 +47,33 @@ export default function ProductFormLayout({ children, id, product }: IProps) {
 
   React.useEffect(() => {
     if (product || id) {
-      setPrevImages(product?.images)
+      setPrevImages(product?.imagesUrls)
       reset({
         title: product?.title ?? '',
         slug: product?.slug ?? '',
         description: product?.description ?? '',
-        tech_stacks: product?.tech_stacks ?? [],
-        price: product?.price.toString(),
-        diskon: product?.diskon.toString(),
-        sold: product?.sold.toString()
+        techStacks: product?.techStacks ?? [],
+        tags: product?.tags ?? [],
+        price: product?.price ?? 0,
+        discountPrice: product?.discountPrice ?? 0,
+        sold: product?.sold ?? 0,
+        category: product?.category ?? '',
+        demoUrl: product?.demoUrl ?? '',
+        documentationUrl: product?.documentationUrl ?? '',
+        fileUrl: product?.fileUrl ?? '',
+        isPublished: product?.isPublished ?? false
       })
     }
   }, [product, reset, id])
 
   React.useEffect(() => {
     if (titleToSlug) {
-      const generatedlug = titleToSlug
+      const generatedSlug = titleToSlug
         .toLowerCase()
         .trim()
         .replace(/[^a-z0-9\s-]/g, '') // Remove special characters
         .replace(/\s+/g, '-') // Replace spaces with dashes
-      setValue('slug', generatedlug)
+      setValue('slug', generatedSlug)
     } else {
       setValue('slug', '')
     }
@@ -75,22 +87,28 @@ export default function ProductFormLayout({ children, id, product }: IProps) {
     } else {
       // Tambahkan file satu per satu ke FormData
       Array.from(files).forEach(file => {
-        formData.append('images', file)
+        formData.append('imagesUrls', file)
       })
     }
 
-    if (id) formData.append('product_id', id)
+    if (id) formData.append('productId', id)
 
     formData.append('title', values.title)
-    formData.append('description', values.description ?? '')
     formData.append('slug', values.slug)
+    formData.append('category', values.category)
+    formData.append('techStacks', JSON.stringify(values.techStacks))
+    formData.append('tags', JSON.stringify(values.tags))
     formData.append('price', values.price.toString())
-    formData.append('diskon', values.diskon.toString())
+    formData.append('discountPrice', values.discountPrice.toString())
     formData.append('sold', values.sold.toString())
-    formData.append('tech_stacks', JSON.stringify(values.tech_stacks))
+    formData.append('demoUrl', values.demoUrl ?? '')
+    formData.append('documentationUrl', values.documentationUrl ?? '')
+    formData.append('fileUrl', values.fileUrl ?? '')
+    formData.append('isPublished', JSON.stringify(values.isPublished))
+    formData.append('description', values.description ?? '')
 
     if (prevImages) {
-      formData.append('prev_images', JSON.stringify(prevImages))
+      formData.append('prevImagesUrls', JSON.stringify(prevImages))
     }
 
     try {

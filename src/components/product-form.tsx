@@ -8,14 +8,6 @@ import {
   FileUploaderItem
 } from '@/components/ui/extension/file-upload'
 import {
-  MultiSelector,
-  MultiSelectorContent,
-  MultiSelectorInput,
-  MultiSelectorItem,
-  MultiSelectorList,
-  MultiSelectorTrigger
-} from '@/components/ui/extension/multi-select'
-import {
   Form,
   FormControl,
   FormDescription,
@@ -25,15 +17,14 @@ import {
   FormMessage
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { TECH_STACKS } from '@/config'
-import { FormState } from '@/types/user'
-import { formSchema } from '@/validations/product-validation'
-import { zodResolver } from '@hookform/resolvers/zod'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Textarea } from '@/components/ui/textarea'
+import { PRODUCT_CATEGORIES as productCategories } from '@/constants/product-categories'
 import { CloudUpload, Paperclip } from 'lucide-react'
-import { UseFormReturn, useForm } from 'react-hook-form'
-import { z } from 'zod'
+import { UseFormReturn } from 'react-hook-form'
 
-import { Textarea } from './ui/textarea'
+import { TagsInput } from './ui/extension/tags-input'
+import { Switch } from './ui/switch'
 
 type FilesProps = {
   files: File[] | null
@@ -46,12 +37,18 @@ interface IProps {
     {
       title: string
       slug: string
-      tech_stacks: string[]
-      price: string
-      diskon: string
-      sold: string
+      category: string
+      price: number
+      discountPrice: number
+      techStacks: string[]
+      tags: string[]
+      sold: number
+      isPublished: boolean
+      imagesUrls?: any[] | undefined
       description?: string | undefined
-      images?: any
+      demoUrl?: string | undefined
+      documentationUrl?: string | undefined
+      fileUrl?: string | undefined
     },
     any,
     undefined
@@ -59,12 +56,18 @@ interface IProps {
   onSubmit: (values: {
     title: string
     slug: string
-    tech_stacks: string[]
-    price: string
-    diskon: string
-    sold: string
+    category: string
+    price: number
+    discountPrice: number
+    techStacks: string[]
+    tags: string[]
+    sold: number
+    isPublished: boolean
+    imagesUrls?: any[] | undefined
     description?: string | undefined
-    images?: any
+    demoUrl?: string | undefined
+    documentationUrl?: string | undefined
+    fileUrl?: string | undefined
   }) => Promise<string | number | undefined>
   isLoading: boolean
   labelButton: string
@@ -81,13 +84,14 @@ const ProductForm = ({ form, filesState, onSubmit, isLoading, labelButton }: IPr
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
+        {/* imagesUrls */}
         <FormField
           control={form.control}
-          name="images"
+          name="imagesUrls"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Select File</FormLabel>
+              <FormLabel>Select Images</FormLabel>
               <FormControl>
                 <FileUploader
                   value={files}
@@ -123,6 +127,7 @@ const ProductForm = ({ form, filesState, onSubmit, isLoading, labelButton }: IPr
           )}
         />
 
+        {/* title */}
         <FormField
           control={form.control}
           name="title"
@@ -138,6 +143,7 @@ const ProductForm = ({ form, filesState, onSubmit, isLoading, labelButton }: IPr
           )}
         />
 
+        {/* slug */}
         <FormField
           control={form.control}
           name="slug"
@@ -153,9 +159,220 @@ const ProductForm = ({ form, filesState, onSubmit, isLoading, labelButton }: IPr
           )}
         />
 
+        {/* category */}
         <FormField
           control={form.control}
-          name="tech_stacks"
+          name="category"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Category</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger className="text-muted-foreground">
+                    <SelectValue placeholder="Select a category product." />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {productCategories.map(cat => (
+                    <SelectItem key={cat.id} value={cat.id}>
+                      {cat.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormDescription>Masukkan apa saja category product.</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* tach stacks */}
+        <FormField
+          control={form.control}
+          name="techStacks"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Tech Stacks</FormLabel>
+              <FormControl>
+                <TagsInput
+                  value={field.value}
+                  onValueChange={field.onChange}
+                  placeholder="Enter your tech stacks"
+                />
+              </FormControl>
+              <FormDescription>Masukkan tech stacks product.</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* tags */}
+        <FormField
+          control={form.control}
+          name="tags"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Tags</FormLabel>
+              <FormControl>
+                <TagsInput
+                  value={field.value}
+                  onValueChange={field.onChange}
+                  placeholder="Enter your tags"
+                />
+              </FormControl>
+              <FormDescription>Masukkan tags product.</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* price, diskon, sold */}
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-3">
+          <FormField
+            control={form.control}
+            name="price"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Price</FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    type="text"
+                    inputMode="numeric"
+                    onChange={e => field.onChange(Number(e.target.value) || 0)}
+                  />
+                </FormControl>
+                <FormDescription>Masukkan price.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="discountPrice"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Diskon Price</FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    type="text"
+                    inputMode="numeric"
+                    onChange={e => field.onChange(Number(e.target.value) || 0)}
+                  />
+                </FormControl>
+                <FormDescription>Masukkan diskon.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="sold"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Sold</FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    type="text"
+                    inputMode="numeric"
+                    onChange={e => field.onChange(Number(e.target.value) || 0)}
+                  />
+                </FormControl>
+                <FormDescription>Masukkan sold.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
+        {/* demoUrl */}
+        <FormField
+          control={form.control}
+          name="demoUrl"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Demo URL</FormLabel>
+              <FormControl>
+                <Input {...field} type="url" placeholder="https://example.com" pattern="https?://.+" />
+              </FormControl>
+              <FormDescription>Masukkan demo url ptoject.</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* documentationUrl */}
+        <FormField
+          control={form.control}
+          name="documentationUrl"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Documentation URL</FormLabel>
+              <FormControl>
+                <Input {...field} type="url" placeholder="https://example.com" pattern="https?://.+" />
+              </FormControl>
+              <FormDescription>Masukkan doc url ptoject.</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* fileUrl */}
+        <FormField
+          control={form.control}
+          name="fileUrl"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>File URL</FormLabel>
+              <FormControl>
+                <Input {...field} type="url" placeholder="https://example.com" pattern="https?://.+" />
+              </FormControl>
+              <FormDescription>Masukkan file url ptoject.</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* isPublish */}
+        <FormField
+          control={form.control}
+          name="isPublished"
+          render={({ field }) => (
+            <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+              <div className="space-y-0.5">
+                <FormLabel>Publish</FormLabel>
+                <FormDescription>Aktifkan ini jika product ingin langsung di publish.</FormDescription>
+              </div>
+              <FormControl>
+                <Switch checked={field.value} onCheckedChange={field.onChange} aria-readonly />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+
+        {/* description */}
+        <FormField
+          control={form.control}
+          name="description"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Description</FormLabel>
+              <FormControl>
+                <Textarea placeholder="Placeholder" {...field} />
+              </FormControl>
+              <FormDescription>masukkan description product.</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* <FormField
+          control={form.control}
+          name="techStacks"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Tech Stacks</FormLabel>
@@ -184,69 +401,7 @@ const ProductForm = ({ form, filesState, onSubmit, isLoading, labelButton }: IPr
               <FormMessage />
             </FormItem>
           )}
-        />
-
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-3">
-          <FormField
-            control={form.control}
-            name="price"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Price</FormLabel>
-                <FormControl>
-                  <Input {...field} type="number" min="0" />
-                </FormControl>
-                <FormDescription>Masukkan price.</FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="diskon"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Diskon</FormLabel>
-                <FormControl>
-                  <Input {...field} type="number" min="0" />
-                </FormControl>
-                <FormDescription>Masukkan diskon.</FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="sold"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Sold</FormLabel>
-                <FormControl>
-                  <Input {...field} type="number" min="0" />
-                </FormControl>
-                <FormDescription>Masukkan sold.</FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-
-        <FormField
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Description</FormLabel>
-              <FormControl>
-                <Textarea placeholder="Placeholder" {...field} />
-              </FormControl>
-              <FormDescription>masukkan description product.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        /> */}
 
         <Button type="submit" disabled={isLoading}>
           {isLoading ? 'Loading...' : labelButton}

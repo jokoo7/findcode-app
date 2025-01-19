@@ -1,5 +1,6 @@
 import { firestore } from '@/lib/firebase'
 import {
+  Timestamp,
   addDoc,
   collection,
   deleteDoc,
@@ -82,3 +83,10 @@ export const retriveDataById = async (collectionName: string, id: string) => {
   const data = snapshot.data()
   return data
 }
+
+export const convertFirestoreData = (data: any) => ({
+  ...data,
+  createdAt:
+    data.createdAt instanceof Timestamp ? data.createdAt.toDate().toISOString() : data.createdAt,
+  updatedAt: data.updatedAt instanceof Timestamp ? data.updatedAt.toDate().toISOString() : data.updatedAt
+})

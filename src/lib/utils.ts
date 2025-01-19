@@ -16,9 +16,13 @@ export const roundPrice = (price: number) => {
 }
 
 export const calculateDiscount = (price: number, discountPercentage: number): number => {
+  if (discountPercentage === 100) {
+    return 0
+  }
+
   const discount = (price * discountPercentage) / 100
-  const roundedDiscount = roundPrice(discount)
-  return roundedDiscount
+  const result = price - discount
+  return roundPrice(result)
 }
 
 export const formatCurrencyID = (amount: number) => {

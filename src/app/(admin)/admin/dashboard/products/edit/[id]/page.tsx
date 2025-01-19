@@ -1,5 +1,5 @@
 import ProductFormLayout from '@/components/layouts/product-form-layout'
-import { retriveDataById } from '@/services/firebase.service'
+import { convertFirestoreData, retriveDataById } from '@/services/firebase.service'
 
 interface IProps {
   params: Promise<{ id: string }>
@@ -7,7 +7,8 @@ interface IProps {
 
 export default async function Page({ params }: IProps) {
   const id = (await params)?.id
-  const product: any = await retriveDataById('products', id)
+  const fetchedData = await retriveDataById('products', id)
+  const product = convertFirestoreData(fetchedData)
 
   if (!id) {
     return <p>ID Tidak ada.</p>

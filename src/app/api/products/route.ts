@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server'
 import cloudinary from '@/lib/cloudinary'
 import { createData, deleteData, updateData } from '@/services/firebase.service'
 import { ProductImages } from '@/types/product'
+import { serverTimestamp } from 'firebase/firestore'
 
 // Fungsi untuk menghapus file dari Cloudinary jika dibutuhkan
 const deleteFilesFromCloudinary = async (publicIds: string[]) => {
@@ -15,23 +16,29 @@ const deleteFilesFromCloudinary = async (publicIds: string[]) => {
 export async function POST(req: Request) {
   try {
     const data = await req.formData()
-    const images = data.getAll('images') as File[]
+    const imagesUrls = data.getAll('imagesUrls') as File[]
 
     // Ambil data lainnya dari FormData
     const title = data.get('title') as string
     const slug = data.get('slug') as string
-    const description = data.get('description') as string
+    const description = data.get('description') as string | undefined
     const price = Number(data.get('price'))
-    const diskon = Number(data.get('diskon'))
+    const discountPrice = Number(data.get('discountPrice'))
     const sold = Number(data.get('sold'))
-    const tech_stacks = JSON.parse(data.get('tech_stacks') as string) as string[]
+    const techStacks = JSON.parse(data.get('techStacks') as string) as string[]
+    const category = data.get('category') as string
+    const tags = JSON.parse(data.get('tags') as string) as string[]
+    const demoUrl = data.get('demoUrl') as string | undefined
+    const documentationUrl = data.get('documentationUrl') as string | undefined
+    const fileUrl = data.get('fileUrl') as string | undefined
+    const isPublished = JSON.parse(data.get('isPublished') as string) as boolean
 
-    if (!images || images.length === 0) {
-      return NextResponse.json({ success: false, message: 'No images provided' }, { status: 400 })
+    if (!imagesUrls || imagesUrls.length === 0) {
+      return NextResponse.json({ success: false, message: 'No imagesUrls provided' }, { status: 400 })
     }
 
     // Upload file ke Cloudinary
-    const uploadPromises = images.map(file => {
+    const uploadPromises = imagesUrls.map(file => {
       return new Promise((resolve, reject) => {
         const reader = file.stream().getReader()
         const chunks: Uint8Array[] = []
@@ -67,11 +74,19 @@ export async function POST(req: Request) {
       title,
       slug,
       price,
-      diskon,
+      discountPrice,
+      techStacks,
+      category,
+      tags,
+      demoUrl,
+      documentationUrl,
+      fileUrl,
       sold,
       description,
-      tech_stacks,
-      images: fileUrls
+      imagesUrls: fileUrls,
+      isPublished,
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp()
     }
 
     const isSaved = await createData('products', newData)
@@ -100,30 +115,38 @@ export async function POST(req: Request) {
 export async function PATCH(req: Request) {
   try {
     const data = await req.formData()
-    const id = data.get('product_id') as string
+    const id = data.get('productId') as string
     if (!id) {
       return NextResponse.json({ success: false, message: 'Product ID tidak ada' })
     }
 
-    const images = data.getAll('images') as File[]
+    // Ambil data lainnya dari FormData
+    const imagesUrls = data.getAll('imagesUrls') as File[]
     const title = data.get('title') as string
     const slug = data.get('slug') as string
-    const description = data.get('description') as string
+    const description = data.get('description') as string | undefined
     const price = Number(data.get('price'))
-    const diskon = Number(data.get('diskon'))
+    const discountPrice = Number(data.get('discountPrice'))
     const sold = Number(data.get('sold'))
-    const tech_stacks = JSON.parse(data.get('tech_stacks') as string) as string[]
-    const prev_images = JSON.parse(data.get('prev_images') as string) as ProductImages[]
+    const techStacks = JSON.parse(data.get('techStacks') as string) as string[]
+    const category = data.get('category') as string
+    const tags = JSON.parse(data.get('tags') as string) as string[]
+    const demoUrl = data.get('demoUrl') as string | undefined
+    const documentationUrl = data.get('documentationUrl') as string | undefined
+    const fileUrl = data.get('fileUrl') as string | undefined
+    const isPublished = JSON.parse(data.get('isPublished') as string) as boolean
 
-    let resultImages = prev_images
+    const prevImagesUrls = JSON.parse(data.get('prevImagesUrls') as string) as ProductImages[]
 
-    if (images.length > 0) {
+    let resultImages = prevImagesUrls
+
+    if (imagesUrls.length > 0) {
       // Hapus gambar lama dari Cloudinary
-      const oldImagePublicIds = prev_images.map(image => image.public_id)
+      const oldImagePublicIds = prevImagesUrls.map(image => image.public_id)
       await deleteFilesFromCloudinary(oldImagePublicIds)
 
       // Upload gambar baru ke Cloudinary
-      const uploadPromises = images.map(file => {
+      const uploadPromises = imagesUrls.map(file => {
         return new Promise((resolve, reject) => {
           const reader = file.stream().getReader()
           const chunks: Uint8Array[] = []
@@ -157,11 +180,18 @@ export async function PATCH(req: Request) {
       title,
       slug,
       price,
-      diskon,
+      discountPrice,
+      techStacks,
+      category,
+      tags,
+      demoUrl,
+      documentationUrl,
+      fileUrl,
       sold,
       description,
-      tech_stacks,
-      images: resultImages
+      imagesUrls: resultImages,
+      isPublished,
+      updatedAt: serverTimestamp()
     }
 
     const isSaved = await updateData('products', id, newUpdateData)
@@ -188,14 +218,14 @@ export async function PATCH(req: Request) {
 export async function DELETE(req: Request) {
   try {
     const data = await req.json()
-    const { images, id } = data
+    const { imagesUrls, id } = data
 
     // Validasi input
-    if (!images || !id) {
+    if (!imagesUrls || !id) {
       return NextResponse.json({ error: 'Images and document ID are required' }, { status: 400 })
     }
 
-    const publicIds = images.map((image: any) => image.public_id)
+    const publicIds = imagesUrls.map((image: any) => image.public_id)
 
     const isDeleted = await deleteData('products', id)
     if (!isDeleted) {

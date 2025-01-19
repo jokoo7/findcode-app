@@ -6,17 +6,17 @@ import { Trash2 } from 'lucide-react'
 import React from 'react'
 
 interface IProps {
-  images: ProductImages[]
+  imagesUrls: ProductImages[]
   id: string
 }
 
-const ButtonDeleteProduct = ({ images, id }: IProps) => {
+const ButtonDeleteProduct = ({ imagesUrls, id }: IProps) => {
   async function handleDelete() {
     try {
       const response = await fetch('/api/products', {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ images, id })
+        body: JSON.stringify({ imagesUrls, id })
       })
 
       if (!response.ok) {

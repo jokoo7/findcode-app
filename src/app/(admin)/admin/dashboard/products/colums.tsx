@@ -37,10 +37,10 @@ export const columns: ColumnDef<Product>[] = [
     accessorFn: (_, rowIndex) => rowIndex + 1 // Hitung indeks secara otomatis
   },
   {
-    accessorKey: 'images',
+    accessorKey: 'imagesUrls',
     header: 'Image',
     cell: ({ row }) => {
-      const images: any = row.getValue('images')
+      const images: any = row.getValue('imagesUrls')
       const img = images?.map((img: any) => img.url)
 
       return (
@@ -68,29 +68,29 @@ export const columns: ColumnDef<Product>[] = [
     header: () => <div className="text-left">Price</div>,
     cell: ({ row }) => {
       const price = parseFloat(row.getValue('price'))
-      const diskon = parseFloat(row.getValue('diskon'))
-      const amountAfterDiskon = calculateDiscount(price, diskon)
+      const discountPrice = parseFloat(row.getValue('discountPrice'))
+      const amountAfterDiskon = calculateDiscount(price, discountPrice)
 
       return (
         <div className="flex flex-col">
-          {diskon !== 0 && (
+          {discountPrice !== 0 && (
             <span className="text-left font-medium text-muted-foreground line-through">
               {formatCurrencyID(price)}
             </span>
           )}
           <span className="text-left font-medium">
-            {formatCurrencyID(diskon !== 0 ? amountAfterDiskon : roundPrice(price))}
+            {formatCurrencyID(discountPrice !== 0 ? amountAfterDiskon : roundPrice(price))}
           </span>
         </div>
       )
     }
   },
   {
-    accessorKey: 'diskon',
+    accessorKey: 'discountPrice',
     header: 'Diskon',
     cell: ({ row }) => {
-      const diskon: any = row.getValue('diskon')
-      return <span>{diskon === 0 ? '-' : diskon + '%'}</span>
+      const discountPrice: any = row.getValue('discountPrice')
+      return <span>{discountPrice === 0 ? '-' : discountPrice + '%'}</span>
     }
   },
   {
@@ -121,7 +121,7 @@ export const columns: ColumnDef<Product>[] = [
               <Copy />
               Copy payment ID
             </DropdownMenuItem>
-            <ButtonDeleteProduct images={product.images} id={product.id} />
+            <ButtonDeleteProduct imagesUrls={product.imagesUrls} id={product.id} />
             <Link href={`/admin/dashboard/products/edit/${product.id}`}>
               <DropdownMenuItem className="cursor-pointer">
                 <Pencil /> Edit
