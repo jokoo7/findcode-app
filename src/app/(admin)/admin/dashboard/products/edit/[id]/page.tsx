@@ -16,7 +16,7 @@ export default async function Page({ params }: IProps) {
 
   return (
     <ProductFormLayout id={id} product={product}>
-      <h1 className="mb-4 text-2xl font-medium">Edit Product</h1>
+      <h1 className="mb-4 text-2xl font-medium">Edit Product ({product.title})</h1>
     </ProductFormLayout>
   )
 }

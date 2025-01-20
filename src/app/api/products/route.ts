@@ -233,10 +233,10 @@ export async function DELETE(req: Request) {
         { success: false, message: 'Failed to save product data to database' },
         { status: 500 }
       )
+    } else {
+      // delete images in claudinary
+      await deleteFilesFromCloudinary(publicIds)
     }
-
-    // delete images in claudinary
-    await deleteFilesFromCloudinary(publicIds)
 
     return NextResponse.json(
       { success: true, message: 'Yess!! Success create product' },

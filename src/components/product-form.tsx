@@ -135,9 +135,9 @@ const ProductForm = ({ form, filesState, onSubmit, isLoading, labelButton }: IPr
             <FormItem>
               <FormLabel>Title</FormLabel>
               <FormControl>
-                <Input {...field} placeholder="Nextnime App" required />
+                <Input {...field} required disabled={isLoading} />
               </FormControl>
-              <FormDescription>Masukkan title ptoject.</FormDescription>
+              <FormDescription>Masukkan title project.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -174,7 +174,7 @@ const ProductForm = ({ form, filesState, onSubmit, isLoading, labelButton }: IPr
                 </FormControl>
                 <SelectContent>
                   {productCategories.map(cat => (
-                    <SelectItem key={cat.id} value={cat.id}>
+                    <SelectItem disabled={isLoading} key={cat.id} value={cat.id}>
                       {cat.name}
                     </SelectItem>
                   ))}
@@ -240,6 +240,7 @@ const ProductForm = ({ form, filesState, onSubmit, isLoading, labelButton }: IPr
                     type="text"
                     inputMode="numeric"
                     onChange={e => field.onChange(Number(e.target.value) || 0)}
+                    disabled={isLoading}
                   />
                 </FormControl>
                 <FormDescription>Masukkan price.</FormDescription>
@@ -260,6 +261,7 @@ const ProductForm = ({ form, filesState, onSubmit, isLoading, labelButton }: IPr
                     type="text"
                     inputMode="numeric"
                     onChange={e => field.onChange(Number(e.target.value) || 0)}
+                    disabled={isLoading}
                   />
                 </FormControl>
                 <FormDescription>Masukkan diskon.</FormDescription>
@@ -280,9 +282,10 @@ const ProductForm = ({ form, filesState, onSubmit, isLoading, labelButton }: IPr
                     type="text"
                     inputMode="numeric"
                     onChange={e => field.onChange(Number(e.target.value) || 0)}
+                    disabled={isLoading}
                   />
                 </FormControl>
-                <FormDescription>Masukkan sold.</FormDescription>
+                <FormDescription>Masukkan total sold.</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -297,9 +300,9 @@ const ProductForm = ({ form, filesState, onSubmit, isLoading, labelButton }: IPr
             <FormItem>
               <FormLabel>Demo URL</FormLabel>
               <FormControl>
-                <Input {...field} type="url" placeholder="https://example.com" pattern="https?://.+" />
+                <Input {...field} type="url" pattern="https?://.+" disabled={isLoading} />
               </FormControl>
-              <FormDescription>Masukkan demo url ptoject.</FormDescription>
+              <FormDescription>Masukkan demo url project.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -313,9 +316,9 @@ const ProductForm = ({ form, filesState, onSubmit, isLoading, labelButton }: IPr
             <FormItem>
               <FormLabel>Documentation URL</FormLabel>
               <FormControl>
-                <Input {...field} type="url" placeholder="https://example.com" pattern="https?://.+" />
+                <Input {...field} type="url" pattern="https?://.+" disabled={isLoading} />
               </FormControl>
-              <FormDescription>Masukkan doc url ptoject.</FormDescription>
+              <FormDescription>Masukkan doc url project.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -329,9 +332,9 @@ const ProductForm = ({ form, filesState, onSubmit, isLoading, labelButton }: IPr
             <FormItem>
               <FormLabel>File URL</FormLabel>
               <FormControl>
-                <Input {...field} type="url" placeholder="https://example.com" pattern="https?://.+" />
+                <Input {...field} type="url" pattern="https?://.+" disabled={isLoading} />
               </FormControl>
-              <FormDescription>Masukkan file url ptoject.</FormDescription>
+              <FormDescription>Masukkan file url project.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -362,46 +365,13 @@ const ProductForm = ({ form, filesState, onSubmit, isLoading, labelButton }: IPr
             <FormItem>
               <FormLabel>Description</FormLabel>
               <FormControl>
-                <Textarea placeholder="Placeholder" {...field} />
+                <Textarea disabled={isLoading} {...field} />
               </FormControl>
               <FormDescription>masukkan description product.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-
-        {/* <FormField
-          control={form.control}
-          name="techStacks"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Tech Stacks</FormLabel>
-              <FormControl>
-                <MultiSelector
-                  values={field.value}
-                  onValuesChange={field.onChange}
-                  loop
-                  className="max-w-xs"
-                >
-                  <MultiSelectorTrigger>
-                    <MultiSelectorInput placeholder="Select Tach Stacks" className="text-sm" />
-                  </MultiSelectorTrigger>
-                  <MultiSelectorContent>
-                    <MultiSelectorList>
-                      {TECH_STACKS.map(tech => (
-                        <MultiSelectorItem key={tech.value} value={tech.value}>
-                          {tech.label}
-                        </MultiSelectorItem>
-                      ))}
-                    </MultiSelectorList>
-                  </MultiSelectorContent>
-                </MultiSelector>
-              </FormControl>
-              <FormDescription>Masukkan multiple tech stack.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        /> */}
 
         <Button type="submit" disabled={isLoading}>
           {isLoading ? 'Loading...' : labelButton}

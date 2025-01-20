@@ -11,6 +11,8 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
+import Back from '../back'
+
 interface IProps {
   children: React.ReactNode
   id?: string
@@ -135,6 +137,9 @@ export default function ProductFormLayout({ children, id, product }: IProps) {
   return (
     <>
       <div className="mx-auto mb-10 max-w-3xl">
+        <div className="mb-4">
+          <Back />
+        </div>
         {children}
         <ProductForm
           form={form}

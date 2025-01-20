@@ -74,7 +74,7 @@ export const columns: ColumnDef<Product>[] = [
       return (
         <div className="flex flex-col">
           {discountPrice !== 0 && (
-            <span className="text-left font-medium text-muted-foreground line-through">
+            <span className="text-left text-xs font-medium text-muted-foreground line-through">
               {formatCurrencyID(price)}
             </span>
           )}
@@ -122,11 +122,11 @@ export const columns: ColumnDef<Product>[] = [
               Copy payment ID
             </DropdownMenuItem>
             <ButtonDeleteProduct imagesUrls={product.imagesUrls} id={product.id} />
-            <Link href={`/admin/dashboard/products/edit/${product.id}`}>
-              <DropdownMenuItem className="cursor-pointer">
+            <DropdownMenuItem asChild className="cursor-pointer">
+              <Link href={`/admin/dashboard/products/edit/${product.id}`}>
                 <Pencil /> Edit
-              </DropdownMenuItem>
-            </Link>
+              </Link>
+            </DropdownMenuItem>
             <DropdownMenuItem className="cursor-pointer">
               <Eye />
               View product details
