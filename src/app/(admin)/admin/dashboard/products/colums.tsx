@@ -127,9 +127,11 @@ export const columns: ColumnDef<Product>[] = [
                 <Pencil /> Edit
               </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem className="cursor-pointer">
-              <Eye />
-              View product details
+            <DropdownMenuItem asChild className="cursor-pointer">
+              <Link href={`/admin/dashboard/products/view/${product.id}`}>
+                <Eye />
+                View product details
+              </Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
