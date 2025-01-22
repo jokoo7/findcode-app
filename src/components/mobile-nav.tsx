@@ -2,10 +2,9 @@
 
 import { usePathname } from 'next/navigation'
 
+import { NavLinks } from '@/components/nav-links'
 import { Menu, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
-
-import { NavLinks } from './nav-links'
 
 const MobileNav = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false)

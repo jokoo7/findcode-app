@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 
-import { decrypt } from '@/services/session.service'
+import { decrypt } from '@/services/session-service'
 
 const protectedRoute = ['/admin/dashboard']
 const loginRoute = ['/login']

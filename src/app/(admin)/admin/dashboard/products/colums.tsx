@@ -3,6 +3,7 @@
 import Link from 'next/link'
 
 import Image from '@/components/image'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -12,7 +13,7 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { calculateDiscount, formatCurrencyID, roundPrice } from '@/lib/utils'
-import { Product } from '@/types/product'
+import { Product } from '@/types/product-type'
 import { ColumnDef } from '@tanstack/react-table'
 import { ArrowUpDown, Copy, Eye, MoreHorizontal, Pencil } from 'lucide-react'
 
@@ -97,6 +98,16 @@ export const columns: ColumnDef<Product>[] = [
     accessorKey: 'sold',
     header: 'Sold',
     cell: ({ row }) => <span>{row.getValue('sold')}</span>
+  },
+  {
+    accessorKey: 'isPublished',
+    header: 'Publish Status',
+    cell: ({ row }) =>
+      row.getValue('isPublished') ? (
+        <Badge className="bg-green-500 text-white hover:bg-green-500/80">true</Badge>
+      ) : (
+        <Badge variant="destructive">false</Badge>
+      )
   },
   {
     id: 'actions',

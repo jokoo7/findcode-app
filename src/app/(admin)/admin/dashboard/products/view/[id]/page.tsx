@@ -1,13 +1,20 @@
 import Link from 'next/link'
 
 import Back from '@/components/back'
+import CustomError from '@/components/custom-error'
 import Image from '@/components/image'
 import { Badge } from '@/components/ui/badge'
 import { buttonVariants } from '@/components/ui/button'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { calculateDiscount, cn, formatCurrencyID } from '@/lib/utils'
-import { convertFirestoreData, retriveDataById } from '@/services/firebase.service'
-import { Product } from '@/types/product'
+import { getDataConvertById } from '@/lib/data'
+import {
+  calculateDiscount,
+  cn,
+  formatCurrencyID,
+  formatCustomDate,
+  formatRelativeTime
+} from '@/lib/utils'
+import { Product } from '@/types/product-type'
 import React from 'react'
 
 interface IProps {
@@ -16,20 +23,19 @@ interface IProps {
 
 export default async function Page({ params }: IProps) {
   const id = (await params)?.id
-  const fetchedData = await retriveDataById('products', id)
-  const product: Product = convertFirestoreData(fetchedData)
+  const { data: product, success, message } = await getDataConvertById<Product>('products', id)
+
+  if (!id) {
+    return <p className="italic text-muted-foreground">ID Tidak ada.</p>
+  }
+
+  if (!product || !success) {
+    return <CustomError message={message} />
+  }
 
   const price = product.price
   const diskon = product.discountPrice
   const amountAfterDiskon = calculateDiscount(price, diskon)
-
-  if (!id) {
-    return <p>ID Tidak ada.</p>
-  }
-
-  if (!product) {
-    return <p>Tidak ada product.</p>
-  }
 
   return (
     <>
@@ -139,7 +145,11 @@ export default async function Page({ params }: IProps) {
           <TableRow>
             <TableCell className="whitespace-nowrap font-medium">Status Publish</TableCell>
             <TableCell>
-              {product.isPublished ? <Badge>true</Badge> : <Badge variant="destructive">false</Badge>}
+              {product.isPublished ? (
+                <Badge className="bg-green-500 text-white hover:bg-green-500/80">true</Badge>
+              ) : (
+                <Badge variant="destructive">false</Badge>
+              )}
             </TableCell>
           </TableRow>
           <TableRow>
@@ -164,6 +174,20 @@ export default async function Page({ params }: IProps) {
                   </Badge>
                 ))}
               </div>
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell className="whitespace-nowrap font-medium">Created</TableCell>
+            <TableCell>
+              {formatCustomDate(product.createdAt, 'DD MMM YYYY')}{' '}
+              <span className="inline-block italic">({formatRelativeTime(product.createdAt)})</span>
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell className="whitespace-nowrap font-medium">Updated</TableCell>
+            <TableCell>
+              {formatCustomDate(product.updatedAt, 'DD MMM YYYY')}{' '}
+              <span className="inline-block italic">({formatRelativeTime(product.updatedAt)})</span>
             </TableCell>
           </TableRow>
         </TableBody>

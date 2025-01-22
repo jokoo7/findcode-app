@@ -1,6 +1,13 @@
 import { PRODUCT_CATEGORIES as productCategory } from '@/config'
 import { type ClassValue, clsx } from 'clsx'
+import dayjs from 'dayjs'
+import 'dayjs/locale/id'
+import relativeTime from 'dayjs/plugin/relativeTime'
 import { twMerge } from 'tailwind-merge'
+
+// Extend Day.js dengan plugin relativeTime
+dayjs.extend(relativeTime)
+dayjs.locale('id') // Atur ke Bahasa Indonesia (opsional)
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -32,4 +39,19 @@ export const formatCurrencyID = (amount: number) => {
     minimumFractionDigits: 0, // Tidak ada angka di belakang koma
     maximumFractionDigits: 0 // Tidak ada angka di belakang koma
   }).format(amount)
+}
+
+// Fungsi untuk waktu relatif
+export const formatRelativeTime = (timestamp: Date | string | number): string => {
+  const date = dayjs(timestamp)
+  return date.fromNow()
+}
+
+// Fungsi untuk format kustom
+export const formatCustomDate = (
+  timestamp: Date | string | number,
+  format: string = 'MMM DD YYYY'
+): string => {
+  const date = dayjs(timestamp)
+  return date.format(format)
 }

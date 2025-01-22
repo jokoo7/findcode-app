@@ -21,7 +21,6 @@ const parse = (param: Param) => {
 export default async function page({ searchParams }: IProps) {
   const category = parse((await searchParams).category)
   const query = parse((await searchParams).query)
-
   const label = findProductCategory(category)?.label
 
   return (
@@ -55,6 +54,7 @@ export default async function page({ searchParams }: IProps) {
             label: label ? label : query ? undefined : 'Browse high quality assets'
           }}
           type="grid"
+          products={[]}
         />
       </MaxWidthWrapper>
     </>

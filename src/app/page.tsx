@@ -1,25 +1,27 @@
 import Link from 'next/link'
 
+import HydrationClient from '@/components/hydration-client'
 import MaxWidthWrapper from '@/components/max-width-wrapper'
 import ProductReel from '@/components/product-reel'
 import { Button, buttonVariants } from '@/components/ui/button'
+import { getDataConvertByFields } from '@/lib/data'
 import { getQueryClient } from '@/lib/get-query-client'
 import { cn } from '@/lib/utils'
-import { retriveData } from '@/services/firebase.service'
-import { HydrationBoundary, dehydrate } from '@tanstack/react-query'
+import { Product } from '@/types/product-type'
 
 export default async function Home() {
   const queryClient = getQueryClient()
 
-  const products = await queryClient.fetchQuery({
+  const { data: products } = await queryClient.fetchQuery({
     queryKey: ['products'],
-    queryFn: () => retriveData('products')
+    queryFn: () => getDataConvertByFields<Product>('products', [{ field: 'isPublished', value: true }])
   })
 
-  console.log(products)
+  const productsCategoryStarterKit = products?.filter(product => product.category === 'starter-kits')
+  const productsCategoryUiTemplates = products?.filter(product => product.category === 'ui-templates')
 
   return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
+    <HydrationClient queryClient={queryClient}>
       <MaxWidthWrapper>
         <div className="flex flex-col items-center justify-center py-20 text-center">
           <h1 className="max-w-screen-md scroll-m-20 text-4xl font-extrabold capitalize tracking-tight sm:text-5xl lg:text-6xl">
@@ -51,27 +53,6 @@ export default async function Home() {
         </div>
       </MaxWidthWrapper>
 
-      {/* <section className="mb-20">
-        <MaxWidthWrapper>
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-            {perks.map(perk => (
-              <div key={perk.name} className="relative rounded-md dark:border-neutral-700">
-                <div className="my-2 flex justify-start md:flex-shrink-0">
-                  <div className="flex aspect-square h-12 items-center justify-center rounded-xl bg-secondary">
-                    {<perk.Icon size={20} className="text-primary" />}
-                  </div>
-                </div>
-                <div className="w-full">
-                  <h3 className="mb-1 text-xl font-medium">{perk.name}</h3>
-                  <p className="font-sans text-sm text-muted-foreground">{perk.description}</p>
-                </div>
-                <div className="absolute inset-0 -z-10 h-full w-full bg-[linear-gradient(to_right,#80808018_1px,transparent_1px),linear-gradient(to_bottom,#80808018_1px,transparent_1px)] bg-[size:18px_18px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_20%,#000_80%,transparent_100%)]"></div>
-              </div>
-            ))}
-          </div>
-        </MaxWidthWrapper>
-      </section> */}
-
       <section className="pb-16">
         <MaxWidthWrapper>
           <ProductReel
@@ -80,6 +61,7 @@ export default async function Home() {
               subLabel:
                 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odit eos corporis reiciendis ducimus vitae architecto voluptates autem.'
             }}
+            products={products ?? []}
           />
 
           <div className="mt-6 w-full md:hidden">
@@ -92,7 +74,7 @@ export default async function Home() {
 
       <section className="pb-16">
         <MaxWidthWrapper>
-          <ProductReel id="starter_kit" />
+          <ProductReel id="starter_kit" products={productsCategoryStarterKit ?? []} />
 
           <div className="mt-6 w-full md:hidden">
             <Link href="/" className="text-sm font-medium text-primary">
@@ -104,7 +86,7 @@ export default async function Home() {
 
       <section className="pb-16">
         <MaxWidthWrapper>
-          <ProductReel id="ui_template" />
+          <ProductReel id="ui_template" products={productsCategoryUiTemplates ?? []} />
 
           <div className="mt-6 w-full md:hidden">
             <Link href="/" className="text-sm font-medium text-primary">
@@ -113,6 +95,6 @@ export default async function Home() {
           </div>
         </MaxWidthWrapper>
       </section>
-    </HydrationBoundary>
+    </HydrationClient>
   )
 }

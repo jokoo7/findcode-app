@@ -1,5 +1,7 @@
 import Link from 'next/link'
 
+import { ModeToggle } from '@/components/mode-toggle'
+import { Button } from '@/components/ui/button'
 import {
   Sidebar,
   SidebarContent,
@@ -10,12 +12,9 @@ import {
   SidebarMenuItem,
   SidebarRail
 } from '@/components/ui/sidebar'
-import { logout } from '@/services/user.service'
+import { logout } from '@/services/user-service'
 import { Home, LogOut, ShoppingCart, User } from 'lucide-react'
 import * as React from 'react'
-
-import { ModeToggle } from './mode-toggle'
-import { Button } from './ui/button'
 
 const items = [
   {

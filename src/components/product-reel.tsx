@@ -9,6 +9,7 @@ import {
   CarouselPrevious
 } from '@/components/ui/carousel'
 import { findProductCategory } from '@/lib/utils'
+import { Product } from '@/types/product-type'
 import * as React from 'react'
 
 type Custom = {
@@ -20,10 +21,19 @@ type Custom = {
 interface IProps {
   id?: string
   custom?: Custom
+  products: Product[]
   type?: 'carausel' | 'grid'
 }
 
-const ProductReelCustom = ({ custom, type }: { custom: Custom; type: string }) => {
+const ProductReelCustom = ({
+  custom,
+  type,
+  products
+}: {
+  custom: Custom
+  type: string
+  products: Product[]
+}) => {
   return (
     <>
       <div className="mb-4 md:flex md:items-center md:justify-between">
@@ -44,9 +54,12 @@ const ProductReelCustom = ({ custom, type }: { custom: Custom; type: string }) =
           {type === 'carausel' ? (
             <Carousel className="relative w-full">
               <CarouselContent>
-                {Array.from({ length: 5 }).map((_, index) => (
-                  <CarouselItem key={index} className="xs:basis-1/2 md:basis-1/3 lg:basis-1/4">
-                    <ProductCard key={index} />
+                {products.map((product: Product) => (
+                  <CarouselItem
+                    key={product.id}
+                    className="xs:basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5"
+                  >
+                    <ProductCard key={product.id} product={product} />
                   </CarouselItem>
                 ))}
               </CarouselContent>
@@ -55,8 +68,8 @@ const ProductReelCustom = ({ custom, type }: { custom: Custom; type: string }) =
             </Carousel>
           ) : (
             <div className="grid w-full grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 md:grid-cols-4 md:gap-y-10 lg:gap-x-8">
-              {Array.from({ length: 5 }).map((_, index) => (
-                <ProductCard key={index} />
+              {products.map((product: Product) => (
+                <ProductCard key={product.id} product={product} />
               ))}
             </div>
           )}
@@ -66,11 +79,15 @@ const ProductReelCustom = ({ custom, type }: { custom: Custom; type: string }) =
   )
 }
 
-const ProductReel = ({ id, custom, type = 'carausel' }: IProps) => {
+const ProductReel = ({ id, custom, type = 'carausel', products }: IProps) => {
   const category = findProductCategory(id)
 
+  if (!products || products.length === 0) {
+    return <p>Products tidak ada</p>
+  }
+
   if (!id && custom) {
-    return <ProductReelCustom custom={custom} type={type} />
+    return <ProductReelCustom custom={custom} type={type} products={products} />
   }
 
   return (
@@ -93,9 +110,12 @@ const ProductReel = ({ id, custom, type = 'carausel' }: IProps) => {
           {type === 'carausel' ? (
             <Carousel className="relative w-full">
               <CarouselContent>
-                {Array.from({ length: 5 }).map((_, index) => (
-                  <CarouselItem key={index} className="xs:basis-1/2 md:basis-1/3 lg:basis-1/4">
-                    <ProductCard key={index} />
+                {products.map((product: Product) => (
+                  <CarouselItem
+                    key={product.id}
+                    className="xs:basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5"
+                  >
+                    <ProductCard key={product.id} product={product} />
                   </CarouselItem>
                 ))}
               </CarouselContent>
@@ -104,8 +124,8 @@ const ProductReel = ({ id, custom, type = 'carausel' }: IProps) => {
             </Carousel>
           ) : (
             <div className="grid w-full grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 md:grid-cols-4 md:gap-y-10 lg:gap-x-8">
-              {Array.from({ length: 5 }).map((_, index) => (
-                <ProductCard key={index} />
+              {products.map((product: Product) => (
+                <ProductCard key={product.id} product={product} />
               ))}
             </div>
           )}

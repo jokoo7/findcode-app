@@ -14,7 +14,7 @@ import {
   AlertDialogTrigger
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
-import { ProductImages } from '@/types/product'
+import { ProductImages } from '@/types/product-type'
 import { Trash2 } from 'lucide-react'
 import React, { useState } from 'react'
 import { toast } from 'sonner'

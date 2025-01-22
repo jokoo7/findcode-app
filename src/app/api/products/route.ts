@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server'
 
 import cloudinary from '@/lib/cloudinary'
-import { createData, deleteData, updateData } from '@/services/firebase.service'
-import { ProductImages } from '@/types/product'
+import { createData, deleteData, updateData } from '@/services/firebase-service'
+import { ProductImages } from '@/types/product-type'
 import { serverTimestamp } from 'firebase/firestore'
 
 // Fungsi untuk menghapus file dari Cloudinary jika dibutuhkan
@@ -89,14 +89,11 @@ export async function POST(req: Request) {
       updatedAt: serverTimestamp()
     }
 
-    const isSaved = await createData('products', newData)
+    const { success, message } = await createData('products', newData)
 
-    if (!isSaved) {
+    if (!success) {
       await deleteFilesFromCloudinary(publicIds)
-      return NextResponse.json(
-        { success: false, message: 'Failed to save product data to database' },
-        { status: 500 }
-      )
+      return NextResponse.json({ success: false, message }, { status: 500 })
     }
 
     return NextResponse.json(
@@ -194,16 +191,13 @@ export async function PATCH(req: Request) {
       updatedAt: serverTimestamp()
     }
 
-    const isSaved = await updateData('products', id, newUpdateData)
-    if (!isSaved) {
-      return NextResponse.json(
-        { success: false, message: 'Failed to save product data to database' },
-        { status: 500 }
-      )
+    const { success, message } = await updateData('products', id, newUpdateData)
+    if (!success) {
+      return NextResponse.json({ success: false, message }, { status: 500 })
     }
 
     return NextResponse.json(
-      { success: true, message: 'Yess!! Success create product' },
+      { success: true, message: 'Yess!! Success update product' },
       { status: 200 }
     )
   } catch (error) {
@@ -227,19 +221,16 @@ export async function DELETE(req: Request) {
 
     const publicIds = imagesUrls.map((image: any) => image.public_id)
 
-    const isDeleted = await deleteData('products', id)
-    if (!isDeleted) {
-      return NextResponse.json(
-        { success: false, message: 'Failed to save product data to database' },
-        { status: 500 }
-      )
+    const { success, message } = await deleteData('products', id)
+    if (!success) {
+      return NextResponse.json({ success: false, message }, { status: 500 })
     } else {
       // delete images in claudinary
       await deleteFilesFromCloudinary(publicIds)
     }
 
     return NextResponse.json(
-      { success: true, message: 'Yess!! Success create product' },
+      { success: true, message: 'Yess!! Success delete product' },
       { status: 200 }
     )
   } catch (error) {

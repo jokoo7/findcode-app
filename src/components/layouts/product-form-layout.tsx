@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation'
 
 import ProductForm from '@/components/product-form'
-import { Product, ProductImages } from '@/types/product'
+import { Product, ProductImages } from '@/types/product-type'
 import { formSchema } from '@/validations/product-validation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as React from 'react'

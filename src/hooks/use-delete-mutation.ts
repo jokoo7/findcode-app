@@ -1,4 +1,4 @@
-import { ProductImages } from '@/types/product'
+import { ProductImages } from '@/types/product-type'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 
