@@ -25,49 +25,58 @@ const ProductCard = ({ product }: IProps) => {
   const mainImage = product.imagesUrls[0]
 
   return (
-    <Link className={cn('group/main visible h-full w-full cursor-pointer')} href={`/`}>
-      <div className="relative flex w-full flex-col">
-        {isFree ? (
-          <Badge className="absolute right-2 top-2 z-30 bg-green-500 font-sans text-sm font-normal text-white hover:bg-green-500/80 dark:bg-green-700 dark:hover:bg-green-700/80">
-            Free
+    <div className="group/main visible relative flex w-full flex-col">
+      {/* {isFree ? (
+        <Badge className="absolute right-2 top-2 z-30 bg-green-500 font-sans text-sm font-normal text-white hover:bg-green-500/80 dark:bg-green-700 dark:hover:bg-green-700/80">
+          Free
+        </Badge>
+      ) : (
+        hasDiscount && (
+          <Badge
+            variant="destructive"
+            className="absolute right-2 top-2 z-30 font-sans text-sm font-normal"
+          >
+            {discountPrice}% off
           </Badge>
+        )
+      )} */}
+
+      <Link href="/" className="aspect-[5/4] w-full overflow-hidden rounded-lg">
+        <Image
+          src={mainImage.url}
+          alt={product.title}
+          width={700}
+          height={600}
+          className="h-full w-full object-cover object-center"
+        />
+      </Link>
+
+      <h3 className="mt-3 line-clamp-2 text-base font-medium">{product.title}</h3>
+      <p className="mt-1 w-fit cursor-pointer text-sm text-muted-foreground hover:underline">
+        {labelCategory.name}
+      </p>
+      <div className="mt-1 flex flex-col">
+        {isFree ? (
+          <Badge className="w-fit font-sans text-sm font-normal text-white">Free</Badge>
         ) : (
           hasDiscount && (
-            <Badge
-              variant="destructive"
-              className="absolute right-2 top-2 z-30 font-sans text-sm font-normal"
-            >
-              {discountPrice}% off
-            </Badge>
+            <div className="flex items-center gap-2">
+              <span className="inline-block text-sm font-medium text-destructive line-through">
+                {formatCurrencyID(price)}
+              </span>
+              <Badge variant="secondary" className="font-sans text-xs font-normal">
+                {discountPrice}% off
+              </Badge>
+            </div>
           )
         )}
-
-        <div className="aspect-square w-full overflow-hidden rounded-xl">
-          <Image
-            src={mainImage.url}
-            alt={product.title}
-            width={700}
-            height={600}
-            className="h-full w-full object-cover object-center"
-          />
-        </div>
-
-        <h3 className="mt-4 line-clamp-2 text-base font-medium">{product.title}</h3>
-        <p className="mt-1 text-sm text-muted-foreground">{labelCategory.name}</p>
-        <div className="mt-1 flex gap-2">
-          {hasDiscount && (
-            <span className="block text-sm font-medium italic text-destructive line-through">
-              {formatCurrencyID(price)}
-            </span>
-          )}
-          {!isFree && (
-            <span className="block text-sm font-medium">
-              {formatCurrencyID(hasDiscount ? amountAfterDiskon : price)}
-            </span>
-          )}
-        </div>
+        {!isFree && (
+          <span className="block text-sm font-medium">
+            {formatCurrencyID(hasDiscount ? amountAfterDiskon : price)}
+          </span>
+        )}
       </div>
-    </Link>
+    </div>
   )
 }
 

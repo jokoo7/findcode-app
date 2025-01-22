@@ -9,21 +9,7 @@ import * as React from 'react'
 
 const SearchProduct = () => {
   return (
-    <Form
-      // action={async (form: FormData) => {
-      //   'use server'
-
-      //   const query = form.get('query')
-
-      //   if (!query || typeof query !== 'string' || query.trim() === '') {
-      //     return
-      //   }
-
-      //   redirect(`/products?query=${query}`)
-      // }}
-      action="/products"
-      className="flex flex-col gap-2 sm:flex-row"
-    >
+    <Form action="/products" className="flex flex-col gap-2 sm:flex-row">
       <div className="relative w-full">
         <Search
           size={20}

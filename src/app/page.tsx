@@ -2,9 +2,10 @@ import Link from 'next/link'
 
 import HydrationClient from '@/components/hydration-client'
 import MaxWidthWrapper from '@/components/max-width-wrapper'
+import ProductHeading from '@/components/product-heading'
 import ProductReel from '@/components/product-reel'
 import { Button, buttonVariants } from '@/components/ui/button'
-import { getDataConvertByFields } from '@/lib/data'
+import { getDataConvert, getDataConvertByFields } from '@/lib/data'
 import { getQueryClient } from '@/lib/get-query-client'
 import { cn } from '@/lib/utils'
 import { Product } from '@/types/product-type'
@@ -14,7 +15,7 @@ export default async function Home() {
 
   const { data: products } = await queryClient.fetchQuery({
     queryKey: ['products'],
-    queryFn: () => getDataConvertByFields<Product>('products', [{ field: 'isPublished', value: true }])
+    queryFn: () => getDataConvert<Product>('products')
   })
 
   const productsCategoryStarterKit = products?.filter(product => product.category === 'starter-kits')
@@ -55,14 +56,12 @@ export default async function Home() {
 
       <section className="pb-16">
         <MaxWidthWrapper>
-          <ProductReel
-            custom={{
-              label: 'Brand New',
-              subLabel:
-                'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odit eos corporis reiciendis ducimus vitae architecto voluptates autem.'
-            }}
-            products={products ?? []}
-          />
+          <ProductReel products={products ?? []}>
+            <ProductHeading
+              label="Brand New"
+              subLabel="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
+            />
+          </ProductReel>
 
           <div className="mt-6 w-full md:hidden">
             <Link href="/" className="text-sm font-medium text-primary">
@@ -74,7 +73,9 @@ export default async function Home() {
 
       <section className="pb-16">
         <MaxWidthWrapper>
-          <ProductReel id="starter_kit" products={productsCategoryStarterKit ?? []} />
+          <ProductReel products={productsCategoryStarterKit ?? []}>
+            <ProductHeading id="starter-kits" />
+          </ProductReel>
 
           <div className="mt-6 w-full md:hidden">
             <Link href="/" className="text-sm font-medium text-primary">
@@ -86,7 +87,9 @@ export default async function Home() {
 
       <section className="pb-16">
         <MaxWidthWrapper>
-          <ProductReel id="ui_template" products={productsCategoryUiTemplates ?? []} />
+          <ProductReel products={productsCategoryUiTemplates ?? []}>
+            <ProductHeading id="ui-templates" />
+          </ProductReel>
 
           <div className="mt-6 w-full md:hidden">
             <Link href="/" className="text-sm font-medium text-primary">

@@ -110,31 +110,46 @@ export const retriveDataById = async <T>(collectionName: string, id: string): Pr
 
 export const retriveDataByFields = async <T>(
   collectionName: string,
-  filters: { field: string; value: any }[]
+  filters: { field: string; value: any }[],
+  searchQuery?: string,
+  searchField?: string
 ): Promise<Response<T[]>> => {
   const isCollectionNameExists = await doesCollectionExist(collectionName)
   if (!isCollectionNameExists.success) {
     return { success: false, message: isCollectionNameExists.message }
   }
+
   try {
-    // Mulai membangun query dengan beberapa filter
     let docQuery = query(collection(firestore, collectionName))
-    filters.forEach(filter => {
-      docQuery = query(docQuery, where(filter.field, '==', filter.value))
-    })
+
+    if (filters.values !== undefined) {
+      // Tambahkan filter untuk Firestore jika ada
+      filters.forEach(filter => {
+        docQuery = query(docQuery, where(filter.field, '==', filter.value))
+      })
+    }
 
     const querySnapshot = await getDocs(docQuery)
     if (querySnapshot.empty) {
-      return { success: false, message: 'Document empety atau kosong' }
+      return { success: false, message: 'No matching documents found.' }
     }
 
-    const data = querySnapshot.docs.map(doc => ({
+    // Ambil data dari Firestore
+    let data = querySnapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data()
     })) as T[]
+
+    // Jika ada query pencarian, lakukan pencocokan substring di sisi klien
+    if (searchQuery && searchField) {
+      data = data.filter(
+        (doc: any) => doc.title.toLowerCase() && doc.title.includes(searchQuery.toLowerCase())
+      )
+    }
+
     return { success: true, data }
   } catch (error) {
-    return { success: false, message: 'Error saat check ke firebase' + error }
+    return { success: false, message: 'Error retrieving data: ' + error }
   }
 }
 

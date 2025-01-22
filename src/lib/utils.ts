@@ -1,4 +1,4 @@
-import { PRODUCT_CATEGORIES as productCategory } from '@/config'
+import { PRODUCT_CATEGORIES as productCategory } from '@/constants/product-categories'
 import { type ClassValue, clsx } from 'clsx'
 import dayjs from 'dayjs'
 import 'dayjs/locale/id'
@@ -13,8 +13,8 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export const findProductCategory = (category: string | undefined) => {
-  return productCategory.find(({ value }) => value === category)
+export const findProductCategory = (categoryId: string | undefined) => {
+  return productCategory.find(({ id }) => id === categoryId)
 }
 
 export const roundPrice = (price: number) => {
