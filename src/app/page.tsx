@@ -4,8 +4,9 @@ import HydrationClient from '@/components/hydration-client'
 import MaxWidthWrapper from '@/components/max-width-wrapper'
 import ProductHeading from '@/components/product-heading'
 import ProductReel from '@/components/product-reel'
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Button, buttonVariants } from '@/components/ui/button'
-import { getDataConvert, getDataConvertByFields } from '@/lib/data'
+import { getDataConvert } from '@/lib/data'
 import { getQueryClient } from '@/lib/get-query-client'
 import { cn } from '@/lib/utils'
 import { Product } from '@/types/product-type'
@@ -95,6 +96,35 @@ export default async function Home() {
             <Link href="/" className="text-sm font-medium text-primary">
               Shop the collection <span aria-hidden="true">&rarr;</span>
             </Link>
+          </div>
+        </MaxWidthWrapper>
+      </section>
+
+      <section className="pb-16">
+        <MaxWidthWrapper className="flex flex-col items-start gap-8 sm:flex-row">
+          <div>
+            <h2 className="mb-4 text-2xl font-bold text-primary">Butuh Bantuan?</h2>
+            <Button variant="outline">👋 Hubungi kami &rarr;</Button>
+          </div>
+          <div className="ml-auto w-full max-w-2xl">
+            <Accordion type="single" collapsible className="w-full">
+              <AccordionItem value="item-1">
+                <AccordionTrigger>Is it accessible?</AccordionTrigger>
+                <AccordionContent>Yes. It adheres to the WAI-ARIA design pattern.</AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="item-2">
+                <AccordionTrigger>Is it styled?</AccordionTrigger>
+                <AccordionContent>
+                  Yes. It comes with default styles that matches the other components&apos; aesthetic.
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="item-3">
+                <AccordionTrigger>Is it animated?</AccordionTrigger>
+                <AccordionContent>
+                  Yes. It&apos;s animated by default, but you can disable it if you prefer.
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </div>
         </MaxWidthWrapper>
       </section>

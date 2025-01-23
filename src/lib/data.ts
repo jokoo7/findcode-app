@@ -72,6 +72,12 @@ export const getDataConvertByFields = async <T>(
     )
   }
 
+  if (filters.category && filters.query) {
+    data = fetchedData
+      ?.filter((doc: any) => doc.title.toLowerCase().includes(filters.query?.toLowerCase()))
+      .filter((doc: any) => doc.category === filters.category)
+  }
+
   const result = data?.map(convertFirestoreData)
 
   return {

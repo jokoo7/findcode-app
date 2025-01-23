@@ -25,23 +25,8 @@ const ProductCard = ({ product }: IProps) => {
   const mainImage = product.imagesUrls[0]
 
   return (
-    <div className="group/main visible relative flex w-full flex-col">
-      {/* {isFree ? (
-        <Badge className="absolute right-2 top-2 z-30 bg-green-500 font-sans text-sm font-normal text-white hover:bg-green-500/80 dark:bg-green-700 dark:hover:bg-green-700/80">
-          Free
-        </Badge>
-      ) : (
-        hasDiscount && (
-          <Badge
-            variant="destructive"
-            className="absolute right-2 top-2 z-30 font-sans text-sm font-normal"
-          >
-            {discountPrice}% off
-          </Badge>
-        )
-      )} */}
-
-      <Link href="/" className="aspect-[5/4] w-full overflow-hidden rounded-lg">
+    <div className="group/main visible relative flex w-full flex-col font-sans">
+      <Link href="/" className="aspect-square w-full overflow-hidden rounded-lg">
         <Image
           src={mainImage.url}
           alt={product.title}

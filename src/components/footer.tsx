@@ -20,17 +20,17 @@ const Footer = () => {
     <footer className="flex-grow-0">
       <MaxWidthWrapper>
         <div className="border-t py-10">
-          <div className="relative flex flex-col justify-between gap-6 md:flex-row">
+          <div className="relative flex flex-col justify-between gap-10 md:flex-row">
             <div className="relative max-w-lg">
               <h3 className="text-xl font-semibold">Layanan Kami</h3>
-              <p className="mt-1 font-sans text-sm text-accent-foreground">
+              <p className="mt-1 font-sans text-base text-accent-foreground">
                 Jika Anda ingin membuat produk digital yang disesuaikan dengan kebutuhan spesifik Anda,
                 jangan ragu untuk menghubungi kami.
               </p>
             </div>
 
             <div className="relative flex flex-col font-sans">
-              <h3 className="mb-1 font-inter text-xl font-semibold">Hubungi kami</h3>
+              <h3 className="mb-1 font-inter text-xl font-semibold">Contact Kami</h3>
               <Link
                 href="/"
                 className={cn(
@@ -39,7 +39,7 @@ const Footer = () => {
                 )}
               >
                 <MdEmail size={18} />
-                joko74479@gmail.com
+                sannbusiness16@gmail.com
               </Link>
               <Link
                 href="/"

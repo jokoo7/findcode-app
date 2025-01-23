@@ -7,10 +7,10 @@ import Logo from '@/components/logo'
 import MaxWidthWrapper from '@/components/max-width-wrapper'
 import MobileNav from '@/components/mobile-nav'
 import { ModeToggle } from '@/components/mode-toggle'
-import { NavLinks } from '@/components/nav-links'
 import { cn } from '@/lib/utils'
 import { TbCoffee } from 'react-icons/tb'
 
+import NavLinks from './nav-links'
 import { buttonVariants } from './ui/button'
 
 const Navbar = () => {
@@ -30,8 +30,10 @@ const Navbar = () => {
             <Logo />
 
             {/* Navigation Links (hidden on mobile) */}
-            <NavLinks className="z-50 mt-1 hidden md:ml-8 md:flex md:items-center md:self-stretch" />
-
+            <div className="z-50 mt-1 hidden text-neutral-700 dark:text-neutral-300 md:ml-8 md:flex md:items-center md:self-stretch">
+              <NavLinks />
+            </div>
+            {/* className="z-50 mt-1 hidden md:ml-8 md:flex md:items-center md:self-stretch" */}
             {/* Right Side */}
             <div className="ml-auto flex items-center">
               <div className="mr-4 flex items-center gap-2 md:mr-0 md:gap-4">

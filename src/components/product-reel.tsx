@@ -19,7 +19,7 @@ interface IProps {
 
 const ProductReel = ({ type = 'carausel', products, children }: IProps) => {
   if (!products || products.length === 0) {
-    return <CustomError message="Products tidak ada" />
+    return <p>Products tidak ada.</p>
   }
 
   return (
@@ -40,7 +40,7 @@ const ProductReel = ({ type = 'carausel', products, children }: IProps) => {
               <CarouselNext className="right-2 top-[35%] h-12 w-12 bg-secondary disabled:hidden" />
             </Carousel>
           ) : (
-            <div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div className="grid w-full grid-cols-1 gap-6 xs:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {products.map((product: Product) => (
                 <ProductCard key={product.id} product={product} />
               ))}

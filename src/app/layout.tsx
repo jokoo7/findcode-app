@@ -28,7 +28,7 @@ export default function RootLayout({
             <main className="relative flex min-h-screen flex-col">
               <Toaster expand={true} richColors position="top-right" />
               <Navbar />
-              <div className="flex-1 flex-grow">{children}</div>
+              <div className="min-h-screen flex-1 flex-grow">{children}</div>
               <Footer />
             </main>
           </ThemeProvider>

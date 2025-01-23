@@ -1,5 +1,6 @@
 import Link from 'next/link'
 
+import FilterProduct from '@/components/filter-product'
 import HydrationClient from '@/components/hydration-client'
 import MaxWidthWrapper from '@/components/max-width-wrapper'
 import ProductReel from '@/components/product-reel'
@@ -8,7 +9,7 @@ import { buttonVariants } from '@/components/ui/button'
 import { PRODUCT_CATEGORIES as productCategory } from '@/constants/product-categories'
 import { getDataConvertByFields } from '@/lib/data'
 import { getQueryClient } from '@/lib/get-query-client'
-import { cn } from '@/lib/utils'
+import { cn, findProductCategory } from '@/lib/utils'
 import { Product } from '@/types/product-type'
 import * as React from 'react'
 
@@ -36,31 +37,25 @@ export default async function page({ searchParams }: IProps) {
   return (
     <HydrationClient queryClient={queryClient}>
       <MaxWidthWrapper className="py-10">
-        <div className="mb-10 max-w-xl">
-          <SearchProduct />
+        <div className="mb-8 flex w-full flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
+          <div className="w-full max-w-xl">
+            <SearchProduct />
+          </div>
+          <FilterProduct />
         </div>
 
-        {!query && (
-          <div className="mb-6 flex flex-wrap gap-4">
-            <Link
-              href="/products"
-              className={cn(buttonVariants({ variant: 'secondary' }), 'rounded-full')}
-            >
-              All
-            </Link>
-            {productCategory.map(category => (
-              <Link
-                href={category.href}
-                className={cn(buttonVariants({ variant: 'secondary' }), 'rounded-full')}
-                key={category.id}
-              >
-                {category.name}
-              </Link>
-            ))}
-          </div>
-        )}
-
-        {query && <h3 className="text-lg italic">Search &quot;{query}&quot;</h3>}
+        <div className="flex items-center gap-1">
+          {query || category ? (
+            <h3 className="mb-4 text-lg italic">
+              {query && `Search "${query}" `}
+              {category && (
+                <span>
+                  {query && '&'} Category &quot;{findProductCategory(category)?.name}&quot;
+                </span>
+              )}
+            </h3>
+          ) : null}
+        </div>
 
         <React.Suspense fallback={<p>Loading...</p>}>
           <ProductReel type="grid" products={products ?? []} />

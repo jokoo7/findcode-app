@@ -1,8 +1,11 @@
 'use client'
 
+import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
-import { NavLinks } from '@/components/nav-links'
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
+import { PRODUCT_CATEGORIES } from '@/constants/product-categories'
+import { cn } from '@/lib/utils'
 import { Menu, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
@@ -55,8 +58,38 @@ const MobileNav = () => {
                 <X className="h-6 w-6" aria-hidden="true" />
               </button>
             </div>
-
-            <NavLinks className="mt-2 flex h-full flex-col justify-center gap-4 px-8" />
+            <div className="mt-8 flex flex-col px-8">
+              <Link
+                href="/products"
+                className="flex flex-1 items-center justify-between py-4 text-left text-sm font-medium"
+              >
+                Products
+              </Link>
+              <Accordion type="single" collapsible className="w-full">
+                <AccordionItem value="item-1" className="border-none">
+                  <AccordionTrigger className="hover:no-underline">Category</AccordionTrigger>
+                  <AccordionContent>
+                    <div className="flex flex-col gap-4">
+                      {PRODUCT_CATEGORIES.map(cat => (
+                        <div key={cat.id} className="cursor-pointer">
+                          <a
+                            href={cat.href}
+                            className={cn(
+                              'block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground'
+                            )}
+                          >
+                            <div className="text-sm font-medium leading-none">{cat.name}</div>
+                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                              {cat.description}
+                            </p>
+                          </a>
+                        </div>
+                      ))}
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </div>
           </div>
         </div>
       </div>
