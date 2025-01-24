@@ -1,15 +1,12 @@
-import Link from 'next/link'
-
+import BreadcrumbRoute from '@/components/breadcrumb-route'
 import FilterProduct from '@/components/filter-product'
 import HydrationClient from '@/components/hydration-client'
 import MaxWidthWrapper from '@/components/max-width-wrapper'
 import ProductReel from '@/components/product-reel'
 import SearchProduct from '@/components/search-product'
-import { buttonVariants } from '@/components/ui/button'
-import { PRODUCT_CATEGORIES as productCategory } from '@/constants/product-categories'
-import { getDataConvertByFields } from '@/lib/data'
+import { getDataConvertByFilters } from '@/lib/data'
 import { getQueryClient } from '@/lib/get-query-client'
-import { cn, findProductCategory } from '@/lib/utils'
+import { findProductCategory } from '@/lib/utils'
 import { Product } from '@/types/product-type'
 import * as React from 'react'
 
@@ -31,12 +28,16 @@ export default async function page({ searchParams }: IProps) {
 
   const { data: products } = await queryClient.fetchQuery({
     queryKey: [`products${category ? '-' + category : ''}${query ? '-' + query : ''}`],
-    queryFn: () => getDataConvertByFields<Product>('products', { category, query })
+    queryFn: () => getDataConvertByFilters<Product>('products', { category, query })
   })
 
   return (
     <HydrationClient queryClient={queryClient}>
       <MaxWidthWrapper className="py-10">
+        <div className="mb-8">
+          <BreadcrumbRoute />
+        </div>
+
         <div className="mb-8 flex w-full flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
           <div className="w-full max-w-xl">
             <SearchProduct />

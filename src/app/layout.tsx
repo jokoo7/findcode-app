@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 
 import Footer from '@/components/footer'
 import Navbar from '@/components/navbar'
+import ProgresBarTop from '@/components/progres-bar-top'
 import TanstackQueryProvider from '@/components/tanstack-query-provider'
 import { ThemeProvider } from '@/components/theme-provider'
 import { geistSans, inter } from '@/lib/fonts'
@@ -26,10 +27,12 @@ export default function RootLayout({
         <TanstackQueryProvider>
           <ThemeProvider attribute="class" defaultTheme="system">
             <main className="relative flex min-h-screen flex-col">
-              <Toaster expand={true} richColors position="top-right" />
-              <Navbar />
-              <div className="min-h-screen flex-1 flex-grow">{children}</div>
-              <Footer />
+              <ProgresBarTop>
+                <Toaster expand={true} richColors position="top-right" />
+                <Navbar />
+                <div className="min-h-screen flex-1 flex-grow">{children}</div>
+                <Footer />
+              </ProgresBarTop>
             </main>
           </ThemeProvider>
         </TanstackQueryProvider>

@@ -1,7 +1,7 @@
 import {
   convertFirestoreData,
   retriveData,
-  retriveDataByFields,
+  retriveDataByField,
   retriveDataById
 } from '@/services/firebase-service'
 import { Response } from '@/types/response-type'
@@ -49,6 +49,27 @@ export const getDataConvertById = async <T>(
 }
 
 export const getDataConvertByFields = async <T>(
+  collectionName: string,
+  fieldValue: { field: string; value: any }
+): Promise<Response<T[]>> => {
+  const { data: fetchedData, success } = await retriveDataByField<T>(collectionName, fieldValue)
+  if (!success) {
+    return {
+      success: false,
+      message: 'Failed retrive data from database'
+    }
+  }
+
+  const data: T[] | undefined = fetchedData?.map(convertFirestoreData)
+
+  return {
+    success: true,
+    message: 'Success ambil data from database',
+    data
+  }
+}
+
+export const getDataConvertByFilters = async <T>(
   collectionName: string,
   filters: FiltersData
 ): Promise<Response<T[]>> => {

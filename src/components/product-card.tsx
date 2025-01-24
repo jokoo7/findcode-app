@@ -26,7 +26,10 @@ const ProductCard = ({ product }: IProps) => {
 
   return (
     <div className="group/main visible relative flex w-full flex-col font-sans">
-      <Link href="/" className="aspect-square w-full overflow-hidden rounded-lg">
+      <Link
+        href={`/product/detail/${product.slug}`}
+        className="aspect-square w-full overflow-hidden rounded-lg"
+      >
         <Image
           src={mainImage.url}
           alt={product.title}
