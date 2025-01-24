@@ -4,10 +4,9 @@ import { notFound } from 'next/navigation'
 import HydrationClient from '@/components/hydration-client'
 import Image from '@/components/image'
 import MaxWidthWrapper from '@/components/max-width-wrapper'
-import ProductCard from '@/components/product-card'
 import ProductHeading from '@/components/product-heading'
 import ProductReel from '@/components/product-reel'
-import { Button, buttonVariants } from '@/components/ui/button'
+import { buttonVariants } from '@/components/ui/button'
 import {
   Carousel,
   CarouselContent,
@@ -19,7 +18,7 @@ import { getDataConvertByFields } from '@/lib/data'
 import { getQueryClient } from '@/lib/get-query-client'
 import { cn } from '@/lib/utils'
 import { Product } from '@/types/product-type'
-import { Check, Shield } from 'lucide-react'
+import { Shield } from 'lucide-react'
 import { Suspense } from 'react'
 
 import DetailProduct from './detail-product'
@@ -49,15 +48,15 @@ const Page = async ({ params }: PageProps) => {
   return (
     <HydrationClient queryClient={queryClient}>
       <MaxWidthWrapper>
-        <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8">
+        <div className="mx-auto max-w-2xl py-8 sm:px-6 sm:py-16 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8">
           {/* Product Details */}
           <Suspense fallback={<p>Loading...</p>}>
             <DetailProduct product={product ?? []} />
           </Suspense>
 
           {/* Product images */}
-          <div className="mt-10 lg:col-start-2 lg:row-span-2 lg:mt-0 lg:self-center">
-            <div className="h-full w-full overflow-hidden rounded-lg border">
+          <div className="lg:col-start-2 lg:row-span-2 lg:mt-0 lg:self-center">
+            <div className="mt-6 h-full w-full overflow-hidden rounded-lg border lg:mt-0">
               <Carousel className="relative aspect-square w-full">
                 <CarouselContent>
                   {product?.imagesUrls &&
@@ -80,7 +79,7 @@ const Page = async ({ params }: PageProps) => {
           </div>
 
           {/* add to cart part */}
-          <div className="mt-10 lg:col-start-1 lg:row-start-2 lg:max-w-lg lg:self-start">
+          <div className="mt-8 lg:col-start-1 lg:row-start-2 lg:max-w-lg lg:self-start">
             <div>
               <div>
                 <Link target="_blank" href={product.fileUrl!} className={cn(buttonVariants(), 'w-full')}>

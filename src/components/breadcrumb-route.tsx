@@ -16,8 +16,6 @@ import { Fragment } from 'react'
 export default function BreadcrumbRoute() {
   const pathname = usePathname()
   const segments = pathname.split('/').filter(Boolean)
-  // console.log(pathname.split('/').filter(path => path !== ''))
-  const isDisabelHref = ['/product/detail'].some(path => pathname.startsWith(path))
 
   // Daftar kata kunci untuk menghapus segmen terakhir
   const keywordsToExclude = ['edit', 'view', 'detail']
@@ -42,9 +40,7 @@ export default function BreadcrumbRoute() {
   return (
     <Breadcrumb>
       <BreadcrumbList>
-        <BreadcrumbItem>
-          <BreadcrumbLink href={`/`}>Home</BreadcrumbLink>
-        </BreadcrumbItem>
+        <BreadcrumbItem>Home</BreadcrumbItem>
         <BreadcrumbSeparator>
           <Slash />
         </BreadcrumbSeparator>
@@ -59,29 +55,9 @@ export default function BreadcrumbRoute() {
           </Fragment>
         )}
         {filteredSegmentsIfMany.map((seg, index) => {
-          const newSegments = pathname.split('/').filter(path => path !== '')
-          const isSegmentsPathNow = filteredSegmentsIfMany.length === index + 1
-
-          const hrefIfTwoMore = isSegmentsPathNow
-            ? pathname
-            : `/${filteredSegments.slice(0, filteredSegments.length - 2).join('/')}/${seg}`
-
-          const href =
-            newSegments.length > 2 || filteredSegments.length > 2 || newSegments.length === 1
-              ? hrefIfTwoMore
-              : `/${newSegments.slice(0, newSegments.length - 1).join('/')}`
-
-          console.log(href)
-
           return (
             <Fragment key={seg}>
-              <BreadcrumbItem>
-                {isDisabelHref || ['/admin', '/login'].includes(href) ? (
-                  seg
-                ) : (
-                  <BreadcrumbLink href={href}>{segmentLabels(seg)}</BreadcrumbLink>
-                )}
-              </BreadcrumbItem>
+              <BreadcrumbItem>{segmentLabels(seg)}</BreadcrumbItem>
               {index < filteredSegmentsIfMany.length - 1 && (
                 <BreadcrumbSeparator>
                   <Slash />
