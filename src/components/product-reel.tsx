@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 import ProductCard from '@/components/product-card'
 import {
   Carousel,
@@ -6,24 +8,26 @@ import {
   CarouselNext,
   CarouselPrevious
 } from '@/components/ui/carousel'
+import { cn, findProductCategory } from '@/lib/utils'
 import { Product } from '@/types/product-type'
 import * as React from 'react'
-
-import CustomError from './custom-error'
 
 interface IProps {
   products: Product[]
   type?: 'carausel' | 'grid'
+  className?: string
   children?: React.ReactNode
 }
 
-const ProductReel = ({ type = 'carausel', products, children }: IProps) => {
+const ProductReel = ({ type = 'carausel', className, products, children }: IProps) => {
   if (!products || products.length === 0) {
     return <p>Products tidak ada.</p>
   }
 
+  const category = findProductCategory(products[0].category)
+
   return (
-    <>
+    <div className={cn(className)}>
       {children}
       <div className="relative">
         <div className="flex w-full items-center">
@@ -48,7 +52,12 @@ const ProductReel = ({ type = 'carausel', products, children }: IProps) => {
           )}
         </div>
       </div>
-    </>
+      <div className="mt-2 w-full md:hidden">
+        <Link href={`/products?category=${category?.id}`} className="text-sm font-medium text-primary">
+          Lihat selengkapnya <span aria-hidden="true">&rarr;</span>
+        </Link>
+      </div>
+    </div>
   )
 }
 

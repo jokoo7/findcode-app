@@ -62,7 +62,9 @@ export const columns: ColumnDef<Product>[] = [
   {
     accessorKey: 'title',
     header: 'Title',
-    cell: ({ row }) => <div className="whitespace-nowrap">{row.getValue('title')}</div>
+    cell: ({ row }) => (
+      <div className="w-[250px] truncate whitespace-nowrap">{row.getValue('title')}</div>
+    )
   },
   {
     accessorKey: 'price',

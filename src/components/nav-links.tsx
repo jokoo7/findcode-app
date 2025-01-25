@@ -21,11 +21,13 @@ export default function NavLinks() {
       <NavigationMenuList>
         <NavigationMenuItem>
           <Link href="/products" legacyBehavior passHref>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>Products </NavigationMenuLink>
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              Semua Produk
+            </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem className="relative">
-          <NavigationMenuTrigger>Category</NavigationMenuTrigger>
+          <NavigationMenuTrigger>Kategori</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
               {PRODUCT_CATEGORIES.map(component => (

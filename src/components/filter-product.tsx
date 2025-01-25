@@ -42,7 +42,7 @@ export default function FilterProduct() {
       <p className="text-sm text-muted-foreground">Filters</p>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
-          <Button variant="outline" className="w-[150px] justify-start font-sans shadow-none">
+          <Button variant="outline" className="w-[150px] justify-start shadow-none">
             {category ? (
               <>
                 <ListFilter />
@@ -58,7 +58,7 @@ export default function FilterProduct() {
         </PopoverTrigger>
         <PopoverContent className="p-0" side={isMobile ? 'bottom' : 'left'} align="start">
           <Command>
-            <CommandInput placeholder="Change status..." />
+            <CommandInput placeholder="Pilih kategori..." />
             <CommandList>
               <CommandEmpty>No results found.</CommandEmpty>
               <CommandGroup>

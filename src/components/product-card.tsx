@@ -25,10 +25,10 @@ const ProductCard = ({ product }: IProps) => {
   const mainImage = product.imagesUrls[0]
 
   return (
-    <div className="group/main visible relative flex w-full flex-col font-sans">
+    <div className="group/main visible relative flex w-full flex-col">
       <Link
         href={`/product/detail/${product.slug}`}
-        className="aspect-square w-full overflow-hidden rounded-lg"
+        className="aspect-[5/4] w-full overflow-hidden rounded-lg"
       >
         <Image
           src={mainImage.url}
@@ -40,19 +40,22 @@ const ProductCard = ({ product }: IProps) => {
       </Link>
 
       <h3 className="mt-3 line-clamp-2 text-base font-medium">{product.title}</h3>
-      <p className="mt-1 w-fit cursor-pointer text-sm text-muted-foreground hover:underline">
-        {labelCategory.name}
-      </p>
+      <Link
+        href={`/products?category=${product.category}`}
+        className="mt-1 w-fit cursor-pointer text-sm text-muted-foreground hover:underline"
+      >
+        {labelCategory ? labelCategory.name : '-'}
+      </Link>
       <div className="mt-1 flex flex-col">
         {isFree ? (
-          <Badge className="w-fit font-sans text-sm font-normal text-white">Free</Badge>
+          <Badge className="w-fit text-sm font-normal text-white">Free</Badge>
         ) : (
           hasDiscount && (
             <div className="flex items-center gap-2">
               <span className="inline-block text-sm font-medium text-destructive line-through">
                 {formatCurrencyID(price)}
               </span>
-              <Badge variant="secondary" className="font-sans text-xs font-normal">
+              <Badge variant="secondary" className="text-xs font-normal">
                 {discountPrice}% off
               </Badge>
             </div>

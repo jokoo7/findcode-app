@@ -40,10 +40,13 @@ const Navbar = () => {
                 {/* Coffee Button (Desktop) */}
                 <Link
                   href="/"
-                  className={cn(buttonVariants({ variant: 'outline' }), 'hidden text-xs sm:flex')}
+                  className={cn(
+                    buttonVariants({ variant: 'outline' }),
+                    'hidden sm:flex [&_svg]:size-[1.2rem]'
+                  )}
                 >
-                  <TbCoffee size={20} />
-                  <span className="mt-0.5">Traktir Kopi</span>
+                  <TbCoffee size={20} strokeWidth={1.5} />
+                  <span className="mt-0.5 text-sm">Traktir Kopi</span>
                 </Link>
 
                 {/* Coffee Button (Mobile) */}
@@ -51,10 +54,10 @@ const Navbar = () => {
                   href="/"
                   className={cn(
                     buttonVariants({ variant: 'ghost', size: 'icon' }),
-                    'rounded-full sm:hidden'
+                    'rounded-full sm:hidden [&_svg]:size-[1.2rem]'
                   )}
                 >
-                  <TbCoffee size={20} />
+                  <TbCoffee size={20} strokeWidth={1.5} />
                 </Link>
 
                 {/* Mode Toggle */}

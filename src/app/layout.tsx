@@ -5,7 +5,7 @@ import Navbar from '@/components/navbar'
 import ProgresBarTop from '@/components/progres-bar-top'
 import TanstackQueryProvider from '@/components/tanstack-query-provider'
 import { ThemeProvider } from '@/components/theme-provider'
-import { geistSans, inter } from '@/lib/fonts'
+import { inter } from '@/lib/fonts'
 import { cn } from '@/lib/utils'
 import { Toaster } from 'sonner'
 
@@ -23,7 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="h-full" suppressHydrationWarning>
-      <body className={cn('relative h-full antialiased', geistSans.variable, inter.variable)}>
+      <body className={cn('relative h-full antialiased', inter.variable)}>
         <TanstackQueryProvider>
           <ThemeProvider attribute="class" defaultTheme="system">
             <main className="relative flex min-h-screen flex-col">

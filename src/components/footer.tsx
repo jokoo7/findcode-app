@@ -23,14 +23,14 @@ const Footer = () => {
           <div className="relative flex flex-col justify-between gap-10 md:flex-row">
             <div className="relative max-w-lg">
               <h3 className="text-xl font-semibold">Layanan Kami</h3>
-              <p className="mt-1 font-sans text-base text-accent-foreground">
+              <p className="mt-1 text-base text-accent-foreground">
                 Jika Anda ingin membuat produk digital yang disesuaikan dengan kebutuhan spesifik Anda,
                 jangan ragu untuk menghubungi kami.
               </p>
             </div>
 
-            <div className="relative flex flex-col font-sans">
-              <h3 className="mb-1 font-inter text-xl font-semibold">Contact Kami</h3>
+            <div className="relative flex flex-col">
+              <h3 className="mb-1 text-xl font-semibold">Kontak Kami</h3>
               <Link
                 href="/"
                 className={cn(
@@ -40,26 +40,6 @@ const Footer = () => {
               >
                 <MdEmail size={18} />
                 sannbusiness16@gmail.com
-              </Link>
-              <Link
-                href="/"
-                className={cn(
-                  buttonVariants({ variant: 'link' }),
-                  'h-7 w-fit justify-start px-0 font-normal text-accent-foreground'
-                )}
-              >
-                <PiTiktokLogoFill size={18} />
-                @jokosannn_
-              </Link>
-              <Link
-                href="/"
-                className={cn(
-                  buttonVariants({ variant: 'link' }),
-                  'h-7 w-fit justify-start px-0 font-normal text-accent-foreground'
-                )}
-              >
-                <PiInstagramLogoDuotone size={18} />
-                @jokosannn
               </Link>
               <Link
                 href="/"

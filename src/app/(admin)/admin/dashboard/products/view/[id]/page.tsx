@@ -57,7 +57,10 @@ export default async function Page({ params }: IProps) {
             <TableCell>
               <div className="grid grid-cols-3 gap-4">
                 {product.imagesUrls.map((img, i) => (
-                  <div key={img.public_id} className="aspect-video w-full overflow-hidden">
+                  <div
+                    key={img.public_id}
+                    className="aspect-video w-full overflow-hidden rounded-md border-2 border-primary"
+                  >
                     <Image
                       src={img.url}
                       width={200}

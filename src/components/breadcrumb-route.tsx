@@ -6,7 +6,6 @@ import {
   Breadcrumb,
   BreadcrumbEllipsis,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbSeparator
 } from '@/components/ui/breadcrumb'
@@ -34,8 +33,19 @@ export default function BreadcrumbRoute() {
     filteredSegments.length > 2 ? filteredSegments.slice(-2) : filteredSegments
 
   // Format label segmen
-  const segmentLabels = (segment: string) =>
+  const formatSegmentLabel = (segment: string) =>
     segment.charAt(0).toUpperCase() + segment.slice(1).replace(/-/g, ' ')
+
+  const getCustomSegmentName = (segment: string) => {
+    switch (segment) {
+      case 'products':
+        return 'Semua Produk'
+      case 'product':
+        return 'Produk'
+      default:
+        return formatSegmentLabel(segment)
+    }
+  }
 
   return (
     <Breadcrumb>
@@ -54,18 +64,16 @@ export default function BreadcrumbRoute() {
             </BreadcrumbSeparator>
           </Fragment>
         )}
-        {filteredSegmentsIfMany.map((seg, index) => {
-          return (
-            <Fragment key={seg}>
-              <BreadcrumbItem>{segmentLabels(seg)}</BreadcrumbItem>
-              {index < filteredSegmentsIfMany.length - 1 && (
-                <BreadcrumbSeparator>
-                  <Slash />
-                </BreadcrumbSeparator>
-              )}
-            </Fragment>
-          )
-        })}
+        {filteredSegmentsIfMany.map((segment, index) => (
+          <Fragment key={segment}>
+            <BreadcrumbItem>{getCustomSegmentName(segment)}</BreadcrumbItem>
+            {index < filteredSegmentsIfMany.length - 1 && (
+              <BreadcrumbSeparator>
+                <Slash />
+              </BreadcrumbSeparator>
+            )}
+          </Fragment>
+        ))}
       </BreadcrumbList>
     </Breadcrumb>
   )

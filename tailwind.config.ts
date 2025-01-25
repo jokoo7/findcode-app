@@ -72,8 +72,7 @@ export default {
         xs: '512px'
       },
       fontFamily: {
-        sans: ['var(--font-geist-sans)', ...defaultTheme.fontFamily.sans],
-        inter: ['var(--font-inter)']
+        outfit: ['var(--font-outfit)', ...defaultTheme.fontFamily.sans]
       },
       keyframes: {
         'accordion-down': {

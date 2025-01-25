@@ -34,7 +34,7 @@ export default async function page({ searchParams }: IProps) {
   return (
     <HydrationClient queryClient={queryClient}>
       <MaxWidthWrapper className="py-10">
-        <div className="mb-8">
+        <div className="mb-6">
           <BreadcrumbRoute />
         </div>
 

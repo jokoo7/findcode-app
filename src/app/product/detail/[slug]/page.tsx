@@ -7,13 +7,6 @@ import MaxWidthWrapper from '@/components/max-width-wrapper'
 import ProductHeading from '@/components/product-heading'
 import ProductReel from '@/components/product-reel'
 import { buttonVariants } from '@/components/ui/button'
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious
-} from '@/components/ui/carousel'
 import { getDataConvertByFields } from '@/lib/data'
 import { getQueryClient } from '@/lib/get-query-client'
 import { cn } from '@/lib/utils'
@@ -21,7 +14,8 @@ import { Product } from '@/types/product-type'
 import { Shield } from 'lucide-react'
 import { Suspense } from 'react'
 
-import DetailProduct from './detail-product'
+import DetailProduct from './product-detail'
+import ProductImage from './product-image'
 
 interface PageProps {
   params: Promise<{ slug: string }>
@@ -45,6 +39,8 @@ const Page = async ({ params }: PageProps) => {
       getDataConvertByFields<Product>('products', { field: 'category', value: product.category })
   })
 
+  const productsSimilarFilter = productsSimilar?.filter(p => p.id !== product.id)
+
   return (
     <HydrationClient queryClient={queryClient}>
       <MaxWidthWrapper>
@@ -55,28 +51,7 @@ const Page = async ({ params }: PageProps) => {
           </Suspense>
 
           {/* Product images */}
-          <div className="lg:col-start-2 lg:row-span-2 lg:mt-0 lg:self-center">
-            <div className="mt-6 h-full w-full overflow-hidden rounded-lg border lg:mt-0">
-              <Carousel className="relative aspect-square w-full">
-                <CarouselContent>
-                  {product?.imagesUrls &&
-                    product.imagesUrls.map(img => (
-                      <CarouselItem className="h-full w-full" key={img.public_id}>
-                        <Image
-                          src={img.url}
-                          alt="img"
-                          width={500}
-                          height={500}
-                          className="aspect-square w-full rounded-lg object-cover object-center"
-                        />
-                      </CarouselItem>
-                    ))}
-                </CarouselContent>
-                <CarouselPrevious className="left-2 top-1/2 h-12 w-12 bg-secondary disabled:hidden" />
-                <CarouselNext className="right-2 top-1/2 h-12 w-12 bg-secondary disabled:hidden" />
-              </Carousel>
-            </div>
-          </div>
+          <ProductImage images={product.imagesUrls} />
 
           {/* add to cart part */}
           <div className="mt-8 lg:col-start-1 lg:row-start-2 lg:max-w-lg lg:self-start">
@@ -98,10 +73,11 @@ const Page = async ({ params }: PageProps) => {
           </div>
         </div>
 
-        <ProductReel type="grid" products={productsSimilar ?? []}>
+        <ProductReel className="mb-10" products={productsSimilarFilter ?? []}>
           <ProductHeading
-            label="Brand New"
-            subLabel="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
+            label="Produk Serupa"
+            subLabel="Temukan pilihan produk serupa yang berkualitas tinggi untuk kebutuhan Anda."
+            href={`/products?category=${product.category}`}
           />
         </ProductReel>
       </MaxWidthWrapper>

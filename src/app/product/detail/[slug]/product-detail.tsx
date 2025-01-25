@@ -32,7 +32,7 @@ interface IProps {
   product: Product
 }
 
-export default function DetailProduct({ product }: IProps) {
+export default function ProductDetail({ product }: IProps) {
   const [openDescription, setOpenDescription] = useState(false)
   const isDesktop = useIsMobile()
   const category = findProductCategory(product.category)
@@ -51,7 +51,7 @@ export default function DetailProduct({ product }: IProps) {
       <section className="mt-4">
         <div className="flex items-center">
           {price === 0 ? (
-            <Badge className="w-fit font-sans text-sm font-normal text-white">Free</Badge>
+            <Badge className="w-fit text-sm font-normal text-white">Free</Badge>
           ) : (
             <p className="font-medium">{formatPrice}</p>
           )}
@@ -62,7 +62,7 @@ export default function DetailProduct({ product }: IProps) {
         </div>
 
         <div className="mt-4">
-          <span className="mb-2 block text-sm font-medium">Deskripsi Product</span>
+          <span className="mb-2 block text-sm font-medium">Deskripsi Produk</span>
           <div
             className="line-clamp-2 text-sm"
             dangerouslySetInnerHTML={{
@@ -119,7 +119,7 @@ export default function DetailProduct({ product }: IProps) {
         <div className="mt-4 flex">
           <ol className="space-y-3 text-sm">
             <li className="flex items-center gap-1">
-              <div className="flex w-[150px] items-center gap-1 font-medium">
+              <div className="flex w-[130px] items-center gap-1 font-medium">
                 <Eye size={17} />
                 Pratinjau
               </div>
@@ -132,7 +132,7 @@ export default function DetailProduct({ product }: IProps) {
               )}
             </li>
             <li className="flex items-center gap-1">
-              <div className="flex w-[150px] items-center gap-1 font-medium">
+              <div className="flex w-[130px] items-center gap-1 font-medium">
                 <BookOpen size={17} />
                 Dokumentasi
               </div>
@@ -145,14 +145,18 @@ export default function DetailProduct({ product }: IProps) {
               )}
             </li>
 
-            <li className="flex items-center gap-1">
-              <div className="flex w-[150px] flex-shrink-0 items-center gap-1 font-medium">
+            <li className="flex items-start gap-1">
+              <div className="flex w-[130px] flex-shrink-0 items-center gap-1 font-medium">
                 <Tags size={17} />
                 Tags
               </div>
               <div className="flex flex-wrap gap-2">
                 {product.tags.map((v, i) => (
-                  <Badge className="px-3 py-1 font-medium" variant="outline" key={i}>
+                  <Badge
+                    className="px-3 py-1 font-medium text-muted-foreground"
+                    variant="outline"
+                    key={i}
+                  >
                     {v}
                   </Badge>
                 ))}

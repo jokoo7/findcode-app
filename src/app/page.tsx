@@ -4,7 +4,6 @@ import HydrationClient from '@/components/hydration-client'
 import MaxWidthWrapper from '@/components/max-width-wrapper'
 import ProductHeading from '@/components/product-heading'
 import ProductReel from '@/components/product-reel'
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { getDataConvert } from '@/lib/data'
 import { getQueryClient } from '@/lib/get-query-client'
@@ -38,7 +37,7 @@ export default async function Home() {
               siap pakai untuk proyek Anda.
             </span>
           </h1>
-          <p className="mt-4 max-w-screen-md scroll-m-20 font-sans tracking-tight text-muted-foreground sm:text-lg">
+          <p className="mt-4 max-w-screen-md scroll-m-20 tracking-tight text-muted-foreground sm:text-lg">
             Selamat datang di findcode, marketplace khusus untuk source code berkualitas tinggi. Semua
             kode telah diverifikasi dan siap membantu Anda mengembangkan proyek dengan cepat dan efisien.
           </p>
@@ -48,84 +47,37 @@ export default async function Home() {
               href="/products"
               className={cn('dark:text-foreground', buttonVariants({ variant: 'default' }))}
             >
-              Temukan Produk
+              Jelajahi Produk
             </Link>
             <Button variant="ghost">Atau hubungi kami &rarr;</Button>
           </div>
         </div>
       </MaxWidthWrapper>
 
-      <section className="pb-16">
+      <section className="pb-10 sm:pb-16">
         <MaxWidthWrapper>
           <ProductReel products={products ?? []}>
             <ProductHeading
-              label="Brand New"
-              subLabel="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
+              label="Produk Terbaru"
+              subLabel="Temukan produk terbaru dengan kualitas terbaik untuk kebutuhan Anda."
             />
           </ProductReel>
-
-          <div className="mt-6 w-full md:hidden">
-            <Link href="/" className="text-sm font-medium text-primary">
-              Shop the collection <span aria-hidden="true">&rarr;</span>
-            </Link>
-          </div>
         </MaxWidthWrapper>
       </section>
 
-      <section className="pb-16">
+      <section className="pb-10 sm:pb-16">
         <MaxWidthWrapper>
           <ProductReel products={productsCategoryStarterKit ?? []}>
             <ProductHeading id="starter-kits" />
           </ProductReel>
-
-          <div className="mt-6 w-full md:hidden">
-            <Link href="/" className="text-sm font-medium text-primary">
-              Shop the collection <span aria-hidden="true">&rarr;</span>
-            </Link>
-          </div>
         </MaxWidthWrapper>
       </section>
 
-      <section className="pb-16">
+      <section className="pb-10 sm:pb-16">
         <MaxWidthWrapper>
           <ProductReel products={productsCategoryUiTemplates ?? []}>
             <ProductHeading id="ui-templates" />
           </ProductReel>
-
-          <div className="mt-6 w-full md:hidden">
-            <Link href="/" className="text-sm font-medium text-primary">
-              Shop the collection <span aria-hidden="true">&rarr;</span>
-            </Link>
-          </div>
-        </MaxWidthWrapper>
-      </section>
-
-      <section className="pb-16">
-        <MaxWidthWrapper className="flex flex-col items-start gap-8 sm:flex-row">
-          <div>
-            <h2 className="mb-4 text-2xl font-bold text-primary">Butuh Bantuan?</h2>
-            <Button variant="outline">👋 Hubungi kami &rarr;</Button>
-          </div>
-          <div className="ml-auto w-full max-w-2xl">
-            <Accordion type="single" collapsible className="w-full">
-              <AccordionItem value="item-1">
-                <AccordionTrigger>Is it accessible?</AccordionTrigger>
-                <AccordionContent>Yes. It adheres to the WAI-ARIA design pattern.</AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="item-2">
-                <AccordionTrigger>Is it styled?</AccordionTrigger>
-                <AccordionContent>
-                  Yes. It comes with default styles that matches the other components&apos; aesthetic.
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="item-3">
-                <AccordionTrigger>Is it animated?</AccordionTrigger>
-                <AccordionContent>
-                  Yes. It&apos;s animated by default, but you can disable it if you prefer.
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
-          </div>
         </MaxWidthWrapper>
       </section>
     </HydrationClient>
