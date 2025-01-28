@@ -63,13 +63,15 @@ export const retriveData = async <T>(collectionName: string): Promise<Response<T
       ...doc.data()
     })) as T[]
 
+    const dataConverts = data.map(convertFirestoreData)
+
     return {
       success: true,
-      message: 'Success retrive data from collection',
-      data
+      message: 'Success ambil data from database',
+      data: dataConverts
     }
   } catch (error) {
-    return { success: false, message: 'Failed to retrieve data from collection.' + error }
+    return { success: false, message: 'Failed to retrieve data from database.' + error }
   }
 }
 
@@ -95,10 +97,11 @@ export const retriveDataById = async <T>(collectionName: string, id: string): Pr
 
     // Ambil data dari snapshot
     const data = snapshot.data() as T
+    const dataConvert = convertFirestoreData(data)
     return {
       success: true,
-      message: 'Document retrieved successfully.',
-      data
+      message: 'Success ambil data from database',
+      data: dataConvert
     }
   } catch (error) {
     return {
@@ -127,7 +130,9 @@ export const retriveDataByField = async <T>(
       ...doc.data()
     })) as T[]
 
-    return { success: true, data }
+    const dataConverts = data.map(convertFirestoreData)
+
+    return { success: true, message: 'Success ambil data from database', data: dataConverts }
   } catch (error) {
     return { success: false, message: 'Error retrieving data: ' + error }
   }

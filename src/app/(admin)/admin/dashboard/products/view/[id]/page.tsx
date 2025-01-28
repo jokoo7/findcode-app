@@ -6,7 +6,7 @@ import Image from '@/components/image'
 import { Badge } from '@/components/ui/badge'
 import { buttonVariants } from '@/components/ui/button'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { getDataConvertById } from '@/lib/data'
+import { getDataById } from '@/lib/data'
 import {
   calculateDiscount,
   cn,
@@ -23,7 +23,7 @@ interface IProps {
 
 export default async function Page({ params }: IProps) {
   const id = (await params)?.id
-  const { data: product, success, message } = await getDataConvertById<Product>('products', id)
+  const { data: product, success, message } = await getDataById<Product>('products', id)
 
   if (!id) {
     return <p className="italic text-muted-foreground">ID Tidak ada.</p>

@@ -13,7 +13,7 @@ export default function ProductImage({ images }: IProps) {
   const [img, setImg] = useState<string>(images[0].url)
 
   return (
-    <div className="lg:col-start-2 lg:row-span-2 lg:mt-0 lg:self-center">
+    <div className="lg:col-start-2 lg:row-span-2 lg:mt-0 lg:self-start">
       <div className="mt-6 w-full overflow-hidden rounded-lg lg:mt-0">
         <div>
           <Image

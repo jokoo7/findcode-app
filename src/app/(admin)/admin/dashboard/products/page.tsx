@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
 import { buttonVariants } from '@/components/ui/button'
-import { getDataConvert } from '@/lib/data'
+import { getData } from '@/lib/data'
 import { cn } from '@/lib/utils'
 import { Product } from '@/types/product-type'
 
@@ -9,7 +9,7 @@ import { columns } from './colums'
 import { DataTable } from './data-table'
 
 export default async function Page() {
-  const { data: products } = await getDataConvert<Product>('products')
+  const { data: products } = await getData<Product>('products')
 
   return (
     <>

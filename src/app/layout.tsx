@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 
 import Footer from '@/components/footer'
+import MainLayout from '@/components/layouts/main-layout'
 import Navbar from '@/components/navbar'
 import ProgresBarTop from '@/components/progres-bar-top'
 import TanstackQueryProvider from '@/components/tanstack-query-provider'
@@ -29,9 +30,7 @@ export default function RootLayout({
             <main className="relative flex min-h-screen flex-col">
               <ProgresBarTop>
                 <Toaster expand={true} richColors position="top-right" />
-                <Navbar />
-                <div className="min-h-screen flex-1 flex-grow">{children}</div>
-                <Footer />
+                {children}
               </ProgresBarTop>
             </main>
           </ThemeProvider>

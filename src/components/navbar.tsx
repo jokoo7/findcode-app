@@ -1,26 +1,15 @@
-'use client'
-
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
 
 import Logo from '@/components/logo'
 import MaxWidthWrapper from '@/components/max-width-wrapper'
 import MobileNav from '@/components/mobile-nav'
 import { ModeToggle } from '@/components/mode-toggle'
+import NavLinks from '@/components/nav-links'
+import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { TbCoffee } from 'react-icons/tb'
 
-import NavLinks from './nav-links'
-import { buttonVariants } from './ui/button'
-
 const Navbar = () => {
-  const pathname = usePathname()
-
-  // Function to check if the navbar should be minimized
-  const isPathMinimized = ['/login', '/admin'].some(path => pathname.startsWith(path))
-
-  if (isPathMinimized) return null
-
   return (
     <div className="sticky inset-x-0 top-0 z-50">
       <header className="relative w-full border-b bg-background">

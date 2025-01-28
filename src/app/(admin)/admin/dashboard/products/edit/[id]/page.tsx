@@ -1,5 +1,5 @@
 import ProductFormLayout from '@/components/layouts/product-form-layout'
-import { getDataConvertById } from '@/lib/data'
+import { getDataById } from '@/lib/data'
 import { Product } from '@/types/product-type'
 import { Suspense } from 'react'
 
@@ -9,7 +9,7 @@ interface IProps {
 
 export default async function Page({ params }: IProps) {
   const id = (await params)?.id
-  const { data: product } = await getDataConvertById<Product>('products', id)
+  const { data: product } = await getDataById<Product>('products', id)
 
   if (!id) {
     return <p>ID Tidak ada.</p>

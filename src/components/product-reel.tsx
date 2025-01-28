@@ -12,31 +12,44 @@ import { cn, findProductCategory } from '@/lib/utils'
 import { Product } from '@/types/product-type'
 import * as React from 'react'
 
+interface IsCustomLink {
+  status: boolean
+  isVisible: boolean
+  url?: string
+}
+
 interface IProps {
   products: Product[]
   type?: 'carausel' | 'grid'
   className?: string
-  children?: React.ReactNode
+  isHref?: boolean
+  isCustomLink?: IsCustomLink
 }
 
-const ProductReel = ({ type = 'carausel', className, products, children }: IProps) => {
-  if (!products || products.length === 0) {
-    return <p>Products tidak ada.</p>
-  }
-
-  const category = findProductCategory(products[0].category)
+const ProductReel = ({
+  type = 'carausel',
+  className,
+  products,
+  isHref = true,
+  isCustomLink
+}: IProps) => {
+  const category = !isCustomLink?.status ? findProductCategory(products[0]?.category) : null
+  const linkUrl = isCustomLink?.status
+    ? isCustomLink.url
+      ? isCustomLink.url
+      : '/products'
+    : `/products?category=${category?.id}`
 
   return (
     <div className={cn(className)}>
-      {children}
       <div className="relative">
         <div className="flex w-full items-center">
           {type === 'carausel' ? (
             <Carousel className="relative w-full">
               <CarouselContent>
-                {products.map((product: Product) => (
+                {products.map(product => (
                   <CarouselItem key={product.id} className="sm:basis-1/2 lg:basis-1/3 xl:basis-1/4">
-                    <ProductCard key={product.id} product={product} />
+                    <ProductCard product={product} />
                   </CarouselItem>
                 ))}
               </CarouselContent>
@@ -45,18 +58,20 @@ const ProductReel = ({ type = 'carausel', className, products, children }: IProp
             </Carousel>
           ) : (
             <div className="grid w-full grid-cols-1 gap-6 xs:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {products.map((product: Product) => (
+              {products.map(product => (
                 <ProductCard key={product.id} product={product} />
               ))}
             </div>
           )}
         </div>
       </div>
-      <div className="mt-2 w-full md:hidden">
-        <Link href={`/products?category=${category?.id}`} className="text-sm font-medium text-primary">
-          Lihat selengkapnya <span aria-hidden="true">&rarr;</span>
-        </Link>
-      </div>
+      {(!isCustomLink || isCustomLink.isVisible) && isHref && (
+        <div className="mt-2 w-full md:hidden">
+          <Link href={linkUrl} className="text-sm font-medium text-primary">
+            Lihat selengkapnya <span aria-hidden="true">&rarr;</span>
+          </Link>
+        </div>
+      )}
     </div>
   )
 }

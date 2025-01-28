@@ -1,21 +1,12 @@
-'use client'
-
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
 
 import MaxWidthWrapper from '@/components/max-width-wrapper'
 import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { FaWhatsapp } from 'react-icons/fa'
 import { MdEmail } from 'react-icons/md'
-import { PiInstagramLogoDuotone, PiTiktokLogoFill } from 'react-icons/pi'
 
 const Footer = () => {
-  const pathname = usePathname()
-  const isPathMinimize = ['/login', '/admin'].some(path => pathname.startsWith(path))
-
-  if (isPathMinimize) return null
-
   return (
     <footer className="flex-grow-0">
       <MaxWidthWrapper>
