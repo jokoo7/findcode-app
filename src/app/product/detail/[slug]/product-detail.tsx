@@ -5,6 +5,8 @@ import { notFound } from 'next/navigation'
 
 import BreadcrumbRoute from '@/components/breadcrumb-route'
 import ProductHeading from '@/components/product-heading'
+import ProductDetailSkeleton from '@/components/skeleton/product-detail-skeleton'
+import ProductSkeleton from '@/components/skeleton/product-skeleton'
 import { Badge } from '@/components/ui/badge'
 import { buttonVariants } from '@/components/ui/button'
 import {
@@ -26,7 +28,7 @@ import {
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { getProductDetail } from '@/lib/data'
 import { calculateDiscount, cn, findProductCategory, formatCurrencyID } from '@/lib/utils'
-import { useSuspenseQuery } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { BookOpen, Eye, Shield, Tags } from 'lucide-react'
 import { useState } from 'react'
 
@@ -43,16 +45,20 @@ export default function ProductDetail({ slug }: IProps) {
   const [openDescription, setOpenDescription] = useState(false)
   const isDesktop = useIsMobile()
 
-  const {
-    data: { data: product, success }
-  } = useSuspenseQuery({
-    queryKey: ['products', slug],
+  const { data, isPending, isFetching, error } = useQuery({
+    queryKey: ['products', 'detail=' + slug],
     queryFn: () => getProductDetail(slug)
   })
 
-  if (!success) {
+  if (isPending || isFetching) {
+    return <ProductDetailSkeleton />
+  }
+
+  if (error || !data?.success) {
     return notFound()
   }
+
+  const product = data?.data
 
   if (!product) {
     return <p className="mt-2 text-muted-foreground">Product tidak ada.</p>

@@ -1,5 +1,6 @@
 'use client'
 
+import TableSkeleton from '@/components/skeleton/table-skeleton'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -9,6 +10,9 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Input } from '@/components/ui/input'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import { getProduct } from '@/lib/data'
+import { Product } from '@/types/product-type'
+import { useQuery } from '@tanstack/react-query'
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -26,17 +30,21 @@ import * as React from 'react'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
-  data: TData[]
 }
 
-export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({ columns }: DataTableProps<Product, TValue>) {
+  const { data, isPending, isFetching } = useQuery({
+    queryKey: ['products'],
+    queryFn: getProduct
+  })
+
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
 
   const table = useReactTable({
-    data,
+    data: data?.data ?? [],
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -53,6 +61,10 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
       rowSelection
     }
   })
+
+  if (isPending || isFetching) {
+    return <TableSkeleton />
+  }
 
   return (
     <>

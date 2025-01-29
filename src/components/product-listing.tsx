@@ -1,18 +1,21 @@
 'use client'
 
+// Sesuaikan dengan path yang benar
 import { notFound } from 'next/navigation'
 
-import ProductReel from '@/components/product-reel'
-import ProductSkeleton from '@/components/skeleton/product-skeleton'
 import { getProductsFilters } from '@/lib/data'
 import { useQuery } from '@tanstack/react-query'
 
-interface IProps {
+import ProductReel from './product-reel'
+import ProductSkeleton from './skeleton/product-skeleton'
+
+interface ProductsListingProps {
   query?: string
   category?: string
+  type?: 'carausel' | 'grid'
 }
 
-const Products = ({ query, category }: IProps) => {
+const ProductsListing = ({ query, category, type = 'grid' }: ProductsListingProps) => {
   const queryKey = ['products', query && `q=${query}`, category && `cat=${category}`].filter(Boolean)
 
   const { data, isPending, isFetching, error } = useQuery({
@@ -35,7 +38,7 @@ const Products = ({ query, category }: IProps) => {
     return <p className="mt-2 text-muted-foreground">Product tidak ada.</p>
   }
 
-  return <ProductReel type="grid" products={products} />
+  return <ProductReel type={type} products={products} />
 }
 
-export default Products
+export default ProductsListing

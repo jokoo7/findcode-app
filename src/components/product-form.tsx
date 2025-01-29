@@ -53,22 +53,7 @@ interface IProps {
     any,
     undefined
   >
-  onSubmit: (values: {
-    title: string
-    slug: string
-    category: string
-    price: number
-    discountPrice: number
-    techStacks: string[]
-    tags: string[]
-    sold: number
-    isPublished: boolean
-    imagesUrls?: any[] | undefined
-    description?: string | undefined
-    demoUrl?: string | undefined
-    documentationUrl?: string | undefined
-    fileUrl?: string | undefined
-  }) => Promise<string | number | undefined>
+  onSubmit: () => void
   isLoading: boolean
   labelButton: string
 }

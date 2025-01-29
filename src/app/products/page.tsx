@@ -1,15 +1,11 @@
 import BreadcrumbRoute from '@/components/breadcrumb-route'
 import FilterProduct from '@/components/filter-product'
-import HydrationClient from '@/components/hydration-client'
 import MainLayout from '@/components/layouts/main-layout'
 import MaxWidthWrapper from '@/components/max-width-wrapper'
+import ProductsListing from '@/components/product-listing'
 import SearchProduct from '@/components/search-product'
-import { getProductsFilters } from '@/lib/data'
-import { getQueryClient } from '@/lib/get-query-client'
 import { findProductCategory } from '@/lib/utils'
 import * as React from 'react'
-
-import Products from './products'
 
 type Param = string | string[] | undefined
 
@@ -22,23 +18,8 @@ const parse = (param: Param) => {
 }
 
 export default async function Page({ searchParams }: IProps) {
-  const queryClient = getQueryClient()
   const category = parse((await searchParams).category)
   const query = parse((await searchParams).query)
-
-  const queryKey =
-    !query && !category
-      ? ['products']
-      : query && category
-        ? ['products', 'q=' + query, 'cat=' + category]
-        : category
-          ? ['products', 'cat=' + category]
-          : ['products', 'q=' + query]
-
-  queryClient.prefetchQuery({
-    queryKey: queryKey,
-    queryFn: () => getProductsFilters({ query, category })
-  })
 
   return (
     <MainLayout>
@@ -67,9 +48,7 @@ export default async function Page({ searchParams }: IProps) {
           ) : null}
         </div>
 
-        <HydrationClient queryClient={queryClient}>
-          <Products query={query} category={category} />
-        </HydrationClient>
+        <ProductsListing query={query} category={category} />
       </MaxWidthWrapper>
     </MainLayout>
   )

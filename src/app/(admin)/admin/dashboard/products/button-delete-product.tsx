@@ -1,10 +1,7 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
-
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -16,8 +13,9 @@ import {
 import { Button } from '@/components/ui/button'
 import { ProductImages } from '@/types/product-type'
 import { Trash2 } from 'lucide-react'
-import React, { useState } from 'react'
 import { toast } from 'sonner'
+
+import { useMutationData } from '@/hooks/use-mutation'
 
 interface IProps {
   imagesUrls: ProductImages[]
@@ -25,12 +23,12 @@ interface IProps {
 }
 
 const ButtonDeleteProduct = ({ imagesUrls, id }: IProps) => {
-  const [status, setStatus] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const router = useRouter()
+  const mutation = useMutationData({
+    func: handleDelete,
+    queryKey: ['products']
+  })
 
   async function handleDelete() {
-    setLoading(true)
     try {
       const response = await fetch('/api/products', {
         method: 'DELETE',
@@ -42,20 +40,11 @@ const ButtonDeleteProduct = ({ imagesUrls, id }: IProps) => {
 
       if (!response.ok) {
         toast.error(result.message || 'Failed to delete file and data')
-        setStatus(false)
-        // throw new Error(error.message || 'Failed to delete file and data')
       } else {
         toast.success(result.message || 'Success to delete file and data')
-        setStatus(true)
-        router.refresh()
       }
-
-      // return response.json()
     } catch (error) {
-      setStatus(false)
       console.log(error)
-    } finally {
-      setLoading(false)
     }
   }
 
@@ -75,12 +64,10 @@ const ButtonDeleteProduct = ({ imagesUrls, id }: IProps) => {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>{status ? 'Close' : 'Cancel'}</AlertDialogCancel>
-          {!status && (
-            <Button onClick={handleDelete} disabled={loading}>
-              {loading ? 'Loading...' : 'Continue'}
-            </Button>
-          )}
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <Button onClick={() => mutation.mutate()} disabled={mutation.isPending} variant="destructive">
+            {mutation.isPending ? 'Loading...' : 'Continue'}
+          </Button>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

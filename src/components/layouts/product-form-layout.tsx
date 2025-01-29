@@ -2,7 +2,9 @@
 
 import { useRouter } from 'next/navigation'
 
+import Back from '@/components/back'
 import ProductForm from '@/components/product-form'
+import GlobalSkeleton from '@/components/skeleton/global-skeleton'
 import { Product, ProductImages } from '@/types/product-type'
 import { formSchema } from '@/validations/product-validation'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -11,7 +13,7 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
-import Back from '../back'
+import { useMutationData } from '@/hooks/use-mutation'
 
 interface IProps {
   children: React.ReactNode
@@ -20,8 +22,12 @@ interface IProps {
 }
 
 export default function ProductFormLayout({ children, id, product }: IProps) {
-  const router = useRouter()
+  const mutation = useMutationData({
+    func: onSubmit,
+    queryKey: ['products']
+  })
 
+  const router = useRouter()
   const [files, setFiles] = React.useState<File[] | null>(null)
   const [prevImages, setPrevImages] = React.useState<ProductImages[] | undefined>(undefined)
 
@@ -44,7 +50,7 @@ export default function ProductFormLayout({ children, id, product }: IProps) {
     }
   })
 
-  const { watch, setValue, reset, formState } = form
+  const { watch, setValue, reset } = form
   const titleToSlug = watch('title')
 
   React.useEffect(() => {
@@ -125,13 +131,16 @@ export default function ProductFormLayout({ children, id, product }: IProps) {
       } else {
         form.reset()
         setFiles(null)
-
         toast.success(data.message)
-        router.refresh()
+        if (id) router.refresh()
       }
     } catch (error: any) {
       toast.error(error)
     }
+  }
+
+  if (mutation.isPending) {
+    return <GlobalSkeleton className="mx-auto max-w-3xl" />
   }
 
   return (
@@ -144,8 +153,8 @@ export default function ProductFormLayout({ children, id, product }: IProps) {
         <ProductForm
           form={form}
           filesState={{ files, setFiles }}
-          isLoading={formState.isSubmitting}
-          onSubmit={onSubmit}
+          isLoading={mutation.isPending}
+          onSubmit={mutation.mutate}
           labelButton={id ? 'Update' : 'Create'}
         />
       </div>
